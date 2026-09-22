@@ -10,7 +10,7 @@
     menu.className = "dex-menu";
 
     const sections = [
-        ["cartas","🃏","Cartas","Cartas/cartas.html"],
+        ["cartas","🃏","Cartas","cartas/cartas.html"],
         ["elementos","⚡","Elementos","elementos.html"],
         ["habilidades","✨","Habilidades","habilidades.html"],
         ["raids","⚔️","Raids","raids/raids.html"],
