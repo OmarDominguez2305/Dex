@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<meta name="theme-color" content="#080808">
+
+<title>Dex - Raids</title>
+
+<link rel="stylesheet" href="raids.css">
+<link rel="stylesheet" href="../dex-menu.css">
+
+</head>
+
+<body>
+
+<header class="top-bar">
+
+    <button
+        id="backButton"
+        class="back-button"
+        type="button"
+        aria-label="Volver a Inicio"
+    >
+        ←
+    </button>
+
+    <button
+        id="dexMenuButton"
+        class="logo-button"
+        type="button"
+        aria-label="Abrir menú de Dex"
+    >
+        <img src="../assets/dex-logo.png" alt="Dex">
+        <span class="logo-arrow">⌄</span>
+    </button>
+
+</header>
+
+
+<main class="container">
+
+    <!-- ENCABEZADO -->
+
+    <section class="page-header">
+
+        <div class="page-header-icon">
+            ⚔️
+        </div>
+
+        <div>
+            <h1>Raids</h1>
+
+            <p>
+                Consulta las habilidades y mecánicas de los jefes.
+            </p>
+        </div>
+
+    </section>
+
+
+    <!-- LISTA DE HABILIDADES -->
+
+    <section id="raidListView" class="raid-list-view">
+
+        <div class="section-heading">
+
+            <div>
+                <h2>Habilidades de Jefes</h2>
+                <p>Selecciona una habilidad para consultar sus efectos.</p>
+            </div>
+
+            <span id="abilityCount">
+                7 habilidades
+            </span>
+
+        </div>
+
+
+        <div class="raid-list" id="raidAbilities"></div>
+
+    </section>
+
+
+    <!-- DETALLE -->
+
+    <section
+        id="raidDetailView"
+        class="raid-detail-view"
+        aria-live="polite"
+    >
+
+        <button
+            id="detailBack"
+            class="inner-back"
+            type="button"
+        >
+            ← Habilidades de Raids
+        </button>
+
+
+        <article class="raid-detail-card">
+
+            <div class="detail-role">
+                <span>⚔️</span>
+                RAID
+            </div>
+
+
+            <div class="raid-detail-head">
+
+                <div
+                    id="detailIcon"
+                    class="raid-detail-icon"
+                >
+                    ⚔️
+                </div>
+
+                <div>
+
+                    <h2 id="detailName">
+                        Habilidad
+                    </h2>
+
+                    <span class="detail-type">
+                        Mecánica de Boss
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="description-box">
+
+                <h3>Descripción</h3>
+
+                <p id="detailDescription"></p>
+
+            </div>
+
+
+            <div class="effect-box">
+
+                <div class="effect-label">
+                    ⚠️ Efecto
+                </div>
+
+                <p id="detailEffect"></p>
+
+            </div>
+
+
+            <div class="counters-section">
+
+                <div class="scaling-title">
+                    💡 Habilidades útiles
+                </div>
+
+                <div
+                    id="detailCounters"
+                    class="counter-list"
+                ></div>
+
+            </div>
+
+        </article>
+
+    </section>
+
+</main>
+
+
+<script src="raids.js"></script>
+<script src="../dex-menu.js"></script>
+
+</body>
+</html>

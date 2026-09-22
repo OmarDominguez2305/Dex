@@ -1,0 +1,399 @@
+:root{
+    --bg:#080808;
+    --surface:#11090b;
+    --surface-2:#160d0f;
+    --surface-hover:#1d1013;
+    --text:#f2f2f2;
+    --muted:#999;
+    --border:#32171b;
+    --border-strong:#4b2026;
+    --red:#d71920;
+    --red-dark:#8f1117;
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+}
+
+/* BARRA SUPERIOR */
+
+.top-bar{
+    height:60px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 18px;
+    background:#080808;
+    border-bottom:1px solid var(--border);
+}
+
+.back-button{
+    width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    border-radius:11px;
+    background:var(--surface-2);
+    color:#fff;
+    font-size:21px;
+    cursor:pointer;
+}
+
+.logo-button{
+    height:40px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#f5f5f5;
+    font:inherit;
+    cursor:pointer;
+}
+
+.logo-button img{
+    width:82px;
+    height:auto;
+    max-height:34px;
+    display:block;
+    object-fit:contain;
+}
+
+.logo-arrow{
+    margin-top:3px;
+    color:#999;
+    font-size:17px;
+}
+
+/* CONTENEDOR */
+
+.container{
+    width:min(900px,calc(100% - 24px));
+    margin:0 auto;
+    padding:28px 0 50px;
+}
+
+/* ENCABEZADO */
+
+.page-header{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:28px;
+}
+
+.page-header-icon{
+    width:52px;
+    height:52px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    font-size:25px;
+}
+
+.page-header h1{
+    font-size:28px;
+    line-height:1.1;
+    margin-bottom:5px;
+}
+
+.page-header p{
+    color:var(--muted);
+    font-size:14px;
+}
+
+/* ENCABEZADO DE LISTA */
+
+.section-heading{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:14px;
+}
+
+.section-heading h2{
+    font-size:20px;
+    margin-bottom:5px;
+}
+
+.section-heading p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.section-heading > span{
+    color:#aaa;
+    font-size:13px;
+    white-space:nowrap;
+}
+
+/* LISTA */
+
+.raid-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.raid-list-card{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:15px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    color:var(--text);
+    text-align:left;
+    cursor:pointer;
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+}
+
+.raid-list-card:hover{
+    background:var(--surface-hover);
+    border-color:var(--border-strong);
+    transform:translateY(-1px);
+}
+
+.raid-list-icon{
+    width:46px;
+    height:46px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:#1b0d10;
+    border:1px solid var(--border);
+    font-size:22px;
+}
+
+.raid-list-info{
+    flex:1;
+    min-width:0;
+}
+
+.raid-list-info h3{
+    font-size:16px;
+    margin-bottom:4px;
+}
+
+.raid-list-info span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+.raid-list-arrow{
+    color:#777;
+    font-size:20px;
+    flex-shrink:0;
+}
+
+/* DETALLE */
+
+.raid-detail-view{
+    display:none;
+}
+
+.raid-detail-view.active{
+    display:block;
+}
+
+.raid-list-view.hidden{
+    display:none;
+}
+
+.inner-back{
+    margin-bottom:14px;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    background:var(--surface);
+    color:#ddd;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.inner-back:hover{
+    background:var(--surface-hover);
+}
+
+.raid-detail-card{
+    padding:20px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+}
+
+.detail-role{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    margin-bottom:18px;
+    padding:6px 10px;
+    border-radius:999px;
+    background:#241013;
+    border:1px solid var(--border);
+    color:#d98b8b;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:.5px;
+}
+
+.raid-detail-head{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-bottom:22px;
+}
+
+.raid-detail-icon{
+    width:58px;
+    height:58px;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    background:#1b0d10;
+    border:1px solid var(--border);
+    font-size:27px;
+}
+
+.raid-detail-head h2{
+    font-size:23px;
+    margin-bottom:5px;
+}
+
+.detail-type{
+    color:var(--muted);
+    font-size:13px;
+}
+
+.description-box,
+.counters-section{
+    margin-top:16px;
+    padding:16px;
+    background:var(--surface-2);
+    border:1px solid var(--border);
+    border-radius:13px;
+}
+
+.description-box h3{
+    margin-bottom:8px;
+    font-size:14px;
+}
+
+.description-box p,
+.effect-box p{
+    color:#ccc;
+    font-size:14px;
+    line-height:1.6;
+}
+
+.effect-box{
+    margin-top:12px;
+    padding:16px;
+    background:#211012;
+    border:1px solid #4b2026;
+    border-radius:13px;
+}
+
+.effect-label{
+    margin-bottom:8px;
+    color:#e17b80;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.scaling-title{
+    margin-bottom:10px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.counter-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+}
+
+.counter-list span{
+    display:inline-flex;
+    align-items:center;
+    padding:7px 10px;
+    border-radius:9px;
+    background:#211012;
+    border:1px solid var(--border);
+    color:#ddd;
+    font-size:12px;
+}
+
+.counter-list small{
+    color:var(--muted);
+    font-size:12px;
+}
+
+/* MÓVIL */
+
+@media(max-width:600px){
+
+    .top-bar{
+        padding:0 12px;
+    }
+
+    .container{
+        width:min(100% - 20px,900px);
+        padding-top:22px;
+    }
+
+    .page-header h1{
+        font-size:25px;
+    }
+
+    .page-header p{
+        font-size:13px;
+    }
+
+    .section-heading{
+        align-items:flex-start;
+    }
+
+    .section-heading h2{
+        font-size:18px;
+    }
+
+    .section-heading > span{
+        margin-top:3px;
+    }
+
+    .raid-detail-card{
+        padding:16px;
+    }
+
+    .raid-detail-head h2{
+        font-size:20px;
+    }
+
+}
