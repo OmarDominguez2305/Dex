@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta name="theme-color" content="#080808">
+
+<title>Dex - Evolve</title>
+
+<link rel="stylesheet" href="evolve.css">
+<link rel="stylesheet" href="../dex-menu.css">
+
+</head>
+
+<body>
+
+<header class="top-bar">
+
+    <button
+        id="backButton"
+        class="back-button"
+        type="button"
+        aria-label="Volver a Inicio"
+    >
+        ←
+    </button>
+
+    <button
+        id="dexMenuButton"
+        class="logo-button"
+        type="button"
+        aria-label="Abrir menú de Dex"
+    >
+        <img src="../assets/dex-logo.png" alt="Dex">
+        <span class="logo-arrow">⌄</span>
+    </button>
+
+</header>
+
+
+<main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            🔄
+        </div>
+
+        <div>
+
+            <h1>
+                Evolve
+            </h1>
+
+            <p>
+                Calculadora de evolución, Awakening y Overdrive.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CALCULADORA -->
+
+    <section class="card">
+
+        <div class="section-title">
+
+            <span>🃏</span>
+
+            <h2>
+                Calculadora
+            </h2>
+
+        </div>
+
+
+        <div class="grid">
+
+            <label>
+                Rareza actual
+
+                <select id="baseRarity">
+
+                    <option>Common</option>
+                    <option>Uncommon</option>
+                    <option>Rare</option>
+                    <option>Exotic</option>
+                    <option>Legendary</option>
+                    <option>Mythical</option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+                Rareza objetivo
+
+                <select id="targetRarity">
+
+                    <option>Common</option>
+                    <option>Uncommon</option>
+                    <option>Rare</option>
+                    <option>Exotic</option>
+                    <option selected>Legendary</option>
+                    <option>Mythical</option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+                Nivel actual
+
+                <input
+                    id="level"
+                    type="number"
+                    min="1"
+                    max="200"
+                    value="1"
+                >
+
+            </label>
+
+
+            <label>
+                Grado
+
+                <select id="grade">
+
+                    <option>C</option>
+                    <option>D</option>
+                    <option>B</option>
+                    <option selected>A</option>
+                    <option>S</option>
+                    <option>S+</option>
+
+                </select>
+
+            </label>
+
+        </div>
+
+
+        <div class="grades">
+
+            <span>C/D → Sac</span>
+            <span>B → depende de la habilidad</span>
+            <span>A/S/S+ → Base</span>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- AWAKENING -->
+
+        <div class="section-title">
+
+            <span>✨</span>
+
+            <h2>
+                Awakening
+            </h2>
+
+        </div>
+
+
+        <div class="grid">
+
+            <label>
+                Awakening actual
+
+                <select id="currentAwakening">
+
+                    <option value="0" selected>0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+                Awakening objetivo
+
+                <select id="awakening">
+
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5" selected>5</option>
+
+                </select>
+
+            </label>
+
+        </div>
+
+
+        <p class="muted">
+            La calculadora solo suma los niveles de Awakening que faltan.
+        </p>
+
+
+        <hr>
+
+
+        <!-- OVERDRIVE -->
+
+        <div class="section-title">
+
+            <span>⚡</span>
+
+            <h2>
+                Overdrive
+            </h2>
+
+        </div>
+
+
+        <label class="check">
+
+            <input
+                id="overdrive"
+                type="checkbox"
+            >
+
+            Activar Overdrive
+
+        </label>
+
+
+        <div class="requirements">
+
+            <span>Mythical</span>
+            <span>Awakening 5</span>
+            <span>Nivel 150</span>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- RECURSOS -->
+
+        <div class="section-title">
+
+            <span>💰</span>
+
+            <h2>
+                Recursos disponibles
+            </h2>
+
+        </div>
+
+
+        <div class="grid">
+
+            <label>
+                Oro
+
+                <input
+                    id="gold"
+                    type="number"
+                    min="0"
+                    value="0"
+                >
+
+            </label>
+
+
+            <label>
+                Esencia
+
+                <input
+                    id="essence"
+                    type="number"
+                    min="0"
+                    value="0"
+                >
+
+            </label>
+
+
+            <label>
+                Cores
+
+                <input
+                    id="cores"
+                    type="number"
+                    min="0"
+                    value="0"
+                >
+
+            </label>
+
+
+            <label>
+                Ethereal Cores
+
+                <input
+                    id="ethereal"
+                    type="number"
+                    min="0"
+                    value="0"
+                >
+
+            </label>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- SAC -->
+
+        <div class="section-title">
+
+            <span>🃏</span>
+
+            <h2>
+                Sac
+            </h2>
+
+        </div>
+
+
+        <label>
+
+            Sac disponibles
+
+            <input
+                id="sacs"
+                type="number"
+                min="0"
+                value="0"
+            >
+
+        </label>
+
+
+        <div class="buttons">
+
+            <button
+                id="calculate"
+                type="button"
+            >
+                Calcular
+            </button>
+
+            <button
+                id="clear"
+                type="button"
+            >
+                Limpiar
+            </button>
+
+        </div>
+
+
+        <!-- RESULTADO -->
+
+        <div id="result" hidden>
+
+            <hr>
+
+
+            <div class="section-title">
+
+                <span>📊</span>
+
+                <h2>
+                    Resultado
+                </h2>
+
+            </div>
+
+
+            <p id="path"></p>
+
+            <div id="message"></div>
+
+
+            <div class="table">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Necesario</th>
+                            <th>Tienes</th>
+                            <th>Falta</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+                            <td>Oro</td>
+                            <td id="gn">0</td>
+                            <td id="go">0</td>
+                            <td id="gm">0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Esencia</td>
+                            <td id="en">0</td>
+                            <td id="eo">0</td>
+                            <td id="em">0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Cores</td>
+                            <td id="cn">0</td>
+                            <td id="co">0</td>
+                            <td id="cm">0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Ethereal Cores</td>
+                            <td id="tn">0</td>
+                            <td id="to">0</td>
+                            <td id="tm">0</td>
+                        </tr>
+
+                        <tr>
+                            <td>Sac</td>
+                            <td id="sn">0</td>
+                            <td id="so">0</td>
+                            <td id="sm">0</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="summary">
+
+                <strong>
+                    Resumen
+                </strong>
+
+                <p id="summary"></p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- EVOLVE -->
+
+    <section class="card">
+
+        <div class="section-title">
+
+            <span>🔄</span>
+
+            <h2>
+                Evolve
+            </h2>
+
+        </div>
+
+        <p class="muted">
+            Evolve cards to the next rarity tier.
+        </p>
+
+
+        <div class="evolution">
+            Common → Uncommon → Rare → Exotic → Legendary → Mythical
+        </div>
+
+
+        <div class="table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Evolución</th>
+                        <th>Oro</th>
+                        <th>Esencia</th>
+                        <th>Cores</th>
+                        <th>Sac</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+                        <td>Common → Uncommon</td>
+                        <td>25,000</td>
+                        <td>500</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>Uncommon → Rare</td>
+                        <td>50,000</td>
+                        <td>750</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>Rare → Exotic</td>
+                        <td>100,000</td>
+                        <td>1,000</td>
+                        <td>3</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>Exotic → Legendary</td>
+                        <td>200,000</td>
+                        <td>2,000</td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>Legendary → Mythical</td>
+                        <td>250,000</td>
+                        <td>2,500</td>
+                        <td>5</td>
+                        <td>1</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="info">
+
+            <p>
+                <strong>Legendary → Mythical:</strong>
+                la carta debe ser nivel 100.
+            </p>
+
+            <p>
+                El Sac debe ser del mismo personaje y de la misma rareza requerida.
+            </p>
+
+            <p>
+                Evolve utiliza <strong>cores normales</strong>,
+                no Ethereal Cores.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- AWAKENING -->
+
+    <section class="card">
+
+        <div class="section-title">
+
+            <span>✨</span>
+
+            <h2>
+                Awakening
+            </h2>
+
+        </div>
+
+        <p class="muted">
+            Awaken Mythical cards to increase level cap and stats.
+        </p>
+
+
+        <div class="benefits">
+
+            <div>
+                <b>+5</b>
+                <small>Nivel máximo</small>
+            </div>
+
+            <div>
+                <b>+1000</b>
+                <small>PS</small>
+            </div>
+
+            <div>
+                <b>+100</b>
+                <small>ATQ</small>
+            </div>
+
+            <div>
+                <b>150</b>
+                <small>Nivel máximo en A5</small>
+            </div>
+
+        </div>
+
+
+        <div class="table">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Nivel</th>
+                        <th>Oro</th>
+                        <th>Esencia</th>
+                        <th>Cores</th>
+                        <th>Ethereal Cores</th>
+                        <th>Sac</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+                        <td>1</td>
+                        <td>200,000</td>
+                        <td>2,500</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <td>250,000</td>
+                        <td>3,000</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>3</td>
+                        <td>300,000</td>
+                        <td>3,500</td>
+                        <td>5</td>
+                        <td>3</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>4</td>
+                        <td>350,000</td>
+                        <td>4,000</td>
+                        <td>5</td>
+                        <td>4</td>
+                        <td>1</td>
+                    </tr>
+
+                    <tr>
+                        <td>5</td>
+                        <td>400,000</td>
+                        <td>4,500</td>
+                        <td>5</td>
+                        <td>5</td>
+                        <td>1</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="info">
+
+            <p>
+                Requiere una carta <strong>Mythical</strong>.
+            </p>
+
+            <p>
+                El Sac debe ser <strong>Legendary</strong>
+                y del mismo personaje.
+            </p>
+
+            <p>
+                La cantidad de Ethereal Cores corresponde
+                al nivel de Awakening.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- OVERDRIVE -->
+
+    <section class="card">
+
+        <div class="section-title">
+
+            <span>⚡</span>
+
+            <h2>
+                Overdrive
+            </h2>
+
+        </div>
+
+        <p class="muted">
+            Unlock Overdrive on an eligible Mythical card.
+        </p>
+
+
+        <div class="requirements big">
+
+            <span>Mythical</span>
+            <span>Awakening 5</span>
+            <span>Nivel 150</span>
+
+        </div>
+
+
+        <div class="info">
+
+            <p>
+                Overdrive aumenta el límite de nivel de
+                <strong>150 → 200</strong>.
+            </p>
+
+            <p>
+                Las cartas con Overdrive pueden comenzar
+                a utilizar <strong>attunements</strong>.
+            </p>
+
+            <p>
+                El juego muestra una confirmación con los materiales
+                necesarios antes de gastar los recursos.
+            </p>
+
+        </div>
+
+
+        <h3>
+            Costo de Overdrive
+        </h3>
+
+
+        <div class="costs">
+
+            <div>
+                🪙
+                <b>2,500,000</b>
+                <small>Oro</small>
+            </div>
+
+            <div>
+                ✨
+                <b>10,000</b>
+                <small>Esencia</small>
+            </div>
+
+            <div>
+                💠
+                <b>25</b>
+                <small>Cores</small>
+            </div>
+
+            <div>
+                🔮
+                <b>10</b>
+                <small>Ethereal Cores</small>
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<script src="evolve.js"></script>
+<script src="../dex-menu.js"></script>
+
+</body>
+</html>
