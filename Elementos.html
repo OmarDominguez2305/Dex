@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#080808"
+    >
+
+    <title>Dex - Elementos</title>
+
+    <link
+        rel="stylesheet"
+        href="elementos.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="dex-menu.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="top-bar">
+
+    <button
+        id="backButton"
+        class="back-button"
+        type="button"
+        aria-label="Volver a Inicio"
+    >
+        ←
+    </button>
+
+
+    <button
+        id="dexMenuButton"
+        class="logo-button"
+        type="button"
+        aria-label="Abrir menú de Dex"
+    >
+
+        <img
+            src="assets/dex-logo.png"
+            alt="Dex"
+        >
+
+        <span class="logo-arrow">
+            ⌄
+        </span>
+
+    </button>
+
+</header>
+
+
+<main class="main-content">
+
+
+    <section class="page-header">
+
+        <span class="page-icon">
+            ⚡
+        </span>
+
+        <div>
+
+            <h1>
+                Elementos
+            </h1>
+
+            <p>
+                Conoce las fortalezas y debilidades
+                de cada elemento.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="info-box">
+
+        <div class="info-item">
+
+            <strong>
+                1.5×
+            </strong>
+
+            <span>
+                Daño fuerte
+            </span>
+
+        </div>
+
+
+        <div class="info-divider"></div>
+
+
+        <div class="info-item">
+
+            <strong>
+                0.5×
+            </strong>
+
+            <span>
+                Daño débil
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <section
+        id="elementsGrid"
+        class="elements-grid"
+    >
+
+
+        <!-- NORMAL -->
+
+        <article
+            class="element-card"
+            data-element="normal"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    ⚪
+                </div>
+
+                <div>
+
+                    <h2>
+                        Normal
+                    </h2>
+
+                    <span>
+                        NORMAL
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        ⛰️ Ground
+                    </span>
+
+                    <span>
+                        🌿 Grass
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        ❄️ Ice
+                    </span>
+
+                    <span>
+                        🌪️ Air
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- GROUND -->
+
+        <article
+            class="element-card"
+            data-element="ground"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    ⛰️
+                </div>
+
+                <div>
+
+                    <h2>
+                        Ground
+                    </h2>
+
+                    <span>
+                        GROUND
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        ⚡ Electric
+                    </span>
+
+                    <span>
+                        ❄️ Ice
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        ⚪ Normal
+                    </span>
+
+                    <span>
+                        💧 Water
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- GRASS -->
+
+        <article
+            class="element-card"
+            data-element="grass"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    🌿
+                </div>
+
+                <div>
+
+                    <h2>
+                        Grass
+                    </h2>
+
+                    <span>
+                        GRASS
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        ⚡ Electric
+                    </span>
+
+                    <span>
+                        💧 Water
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        ⚪ Normal
+                    </span>
+
+                    <span>
+                        🔥 Fire
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- WATER -->
+
+        <article
+            class="element-card"
+            data-element="water"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    💧
+                </div>
+
+                <div>
+
+                    <h2>
+                        Water
+                    </h2>
+
+                    <span>
+                        WATER
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        🔥 Fire
+                    </span>
+
+                    <span>
+                        ⛰️ Ground
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        ⚡ Electric
+                    </span>
+
+                    <span>
+                        🌿 Grass
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- ICE -->
+
+        <article
+            class="element-card"
+            data-element="ice"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    ❄️
+                </div>
+
+                <div>
+
+                    <h2>
+                        Ice
+                    </h2>
+
+                    <span>
+                        ICE
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        ⚪ Normal
+                    </span>
+
+                    <span>
+                        🌪️ Air
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        🔥 Fire
+                    </span>
+
+                    <span>
+                        ⛰️ Ground
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- AIR -->
+
+        <article
+            class="element-card"
+            data-element="air"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    🌪️
+                </div>
+
+                <div>
+
+                    <h2>
+                        Air
+                    </h2>
+
+                    <span>
+                        AIR
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        ⚪ Normal
+                    </span>
+
+                    <span>
+                        🔥 Fire
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        ❄️ Ice
+                    </span>
+
+                    <span>
+                        ⚡ Electric
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- ELECTRIC -->
+
+        <article
+            class="element-card"
+            data-element="electric"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <h2>
+                        Electric
+                    </h2>
+
+                    <span>
+                        ELECTRIC
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        💧 Water
+                    </span>
+
+                    <span>
+                        🌪️ Air
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        ⛰️ Ground
+                    </span>
+
+                    <span>
+                        🌿 Grass
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- FIRE -->
+
+        <article
+            class="element-card"
+            data-element="fire"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    🔥
+                </div>
+
+                <div>
+
+                    <h2>
+                        Fire
+                    </h2>
+
+                    <span>
+                        FIRE
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        ❄️ Ice
+                    </span>
+
+                    <span>
+                        🌿 Grass
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        💧 Water
+                    </span>
+
+                    <span>
+                        🌪️ Air
+                    </span>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- LIGHT -->
+
+        <article
+            class="element-card special-element"
+            data-element="light"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    ☀️
+                </div>
+
+                <div>
+
+                    <h2>
+                        Light
+                    </h2>
+
+                    <span>
+                        LIGHT
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        🌑 Dark
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        🌑 Dark
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <p class="special-note">
+                Los bosses Light reciben daño
+                débil de Dark.
+            </p>
+
+        </article>
+
+
+        <!-- DARK -->
+
+        <article
+            class="element-card special-element"
+            data-element="dark"
+        >
+
+            <div class="element-header">
+
+                <div class="element-icon">
+                    🌑
+                </div>
+
+                <div>
+
+                    <h2>
+                        Dark
+                    </h2>
+
+                    <span>
+                        DARK
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="matchups">
+
+                <div class="matchup strong">
+
+                    <span class="matchup-label">
+                        Fuerte contra
+                    </span>
+
+                    <span>
+                        ☀️ Light
+                    </span>
+
+                </div>
+
+
+                <div class="matchup weak">
+
+                    <span class="matchup-label">
+                        Débil contra
+                    </span>
+
+                    <span>
+                        ☀️ Light
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <p class="special-note">
+                Los bosses Dark reciben daño
+                débil de Light.
+            </p>
+
+        </article>
+
+
+    </section>
+
+
+    <section class="boss-note">
+
+        <strong>
+            ⚔️ Nota sobre Light y Dark
+        </strong>
+
+        <p>
+            Los bosses de Light y Dark son débiles
+            al elemento opuesto, pero sus ataques
+            elementales contra ese elemento hacen
+            solamente 0.5× de daño.
+        </p>
+
+    </section>
+
+
+</main>
+
+
+<script src="elementos.js"></script>
+<script src="dex-menu.js"></script>
+
+</body>
+</html>

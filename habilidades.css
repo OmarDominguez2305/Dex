@@ -1,0 +1,864 @@
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+:root{
+    --bg:#080808;
+    --surface:#120b0d;
+    --surface-2:#180e11;
+    --surface-3:#211115;
+    --border:#35171c;
+    --border-strong:#542129;
+    --red:#d71920;
+    --red-dark:#8f1117;
+    --text:#f3f3f3;
+    --muted:#9d9698;
+    --soft:#c9c3c4;
+}
+
+html,
+body{
+    min-height:100%;
+    background:var(--bg);
+}
+
+body{
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    color:var(--text);
+}
+
+button{
+    font:inherit;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+.top-bar{
+    position:relative;
+    height:70px;
+
+    display:flex;
+    align-items:center;
+
+    padding:0 24px;
+
+    background:#0b0809;
+    border-bottom:1px solid var(--border);
+}
+
+.back-button,
+.icon-button{
+    width:42px;
+    height:42px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    border:1px solid var(--border);
+    border-radius:50%;
+
+    background:transparent;
+    color:var(--text);
+
+    font-size:23px;
+
+    cursor:pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease;
+}
+
+.back-button:hover,
+.icon-button:hover{
+    background:var(--surface-2);
+    border-color:var(--border-strong);
+}
+
+.logo-button{
+    display:flex;
+    align-items:center;
+    gap:7px;
+
+    margin-left:14px;
+
+    padding:0;
+
+    border:0;
+    background:transparent;
+
+    color:#f5f5f5;
+
+    cursor:pointer;
+}
+
+.logo-button img{
+    display:block;
+
+    width:auto;
+    height:42px;
+
+    object-fit:contain;
+}
+
+.logo-arrow{
+    margin-top:3px;
+
+    color:#999;
+
+    font-size:17px;
+
+    transition:transform .18s ease;
+}
+
+.logo-button.open .logo-arrow{
+    transform:rotate(180deg);
+}
+
+
+/* =========================
+   VIEWS
+========================= */
+
+.view{
+    display:block;
+}
+
+.hidden{
+    display:none !important;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.main-content{
+    width:100%;
+    max-width:900px;
+
+    margin:0 auto;
+
+    padding:42px 22px 70px;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header{
+    margin-bottom:28px;
+}
+
+.compact-header{
+    margin-bottom:20px;
+}
+
+.page-title-row{
+    display:flex;
+    align-items:center;
+
+    gap:16px;
+}
+
+.page-icon{
+    width:58px;
+    height:58px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    border:1px solid var(--border);
+    border-radius:16px;
+
+    background:var(--surface);
+
+    font-size:27px;
+}
+
+.page-header h1{
+    font-size:30px;
+    font-weight:650;
+
+    letter-spacing:-.6px;
+}
+
+.page-header p{
+    margin-top:7px;
+
+    color:var(--muted);
+
+    font-size:14px;
+    line-height:1.5;
+}
+
+
+/* =========================
+   ROLES
+========================= */
+
+.roles-container{
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.role-card{
+    width:100%;
+
+    display:flex;
+    align-items:center;
+
+    text-align:left;
+
+    padding:17px 18px;
+
+    border:1px solid var(--border);
+    border-radius:15px;
+
+    background:var(--surface);
+    color:var(--text);
+
+    cursor:pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+}
+
+.role-card:hover{
+    background:var(--surface-2);
+    border-color:var(--border-strong);
+
+    transform:translateY(-1px);
+}
+
+.role-icon{
+    width:50px;
+    height:50px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    margin-right:15px;
+
+    border-radius:13px;
+
+    background:#211719;
+
+    font-size:25px;
+}
+
+.role-info{
+    display:flex;
+    flex:1;
+    min-width:0;
+
+    flex-direction:column;
+}
+
+.role-info strong{
+    margin-bottom:4px;
+
+    font-size:18px;
+}
+
+.role-info > span{
+    color:var(--muted);
+
+    font-size:13px;
+    line-height:1.45;
+}
+
+.role-info small{
+    width:max-content;
+    max-width:100%;
+
+    margin-top:10px;
+
+    padding:5px 8px;
+
+    border-radius:8px;
+
+    background:#211719;
+    color:#aaa;
+
+    font-size:12px;
+}
+
+.role-info b{
+    color:#f0f0f0;
+}
+
+.card-arrow{
+    margin-left:12px;
+
+    color:#777;
+
+    font-size:27px;
+}
+
+
+/* =========================
+   ABILITY LIST
+========================= */
+
+.abilities-list{
+    display:flex;
+    flex-direction:column;
+
+    gap:12px;
+}
+
+.ability-list-card{
+    width:100%;
+
+    display:flex;
+    align-items:center;
+
+    padding:14px 16px;
+
+    text-align:left;
+
+    border:1px solid var(--border);
+    border-radius:15px;
+
+    background:var(--surface);
+    color:var(--text);
+
+    cursor:pointer;
+
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+}
+
+.ability-list-card:hover{
+    background:var(--surface-2);
+    border-color:var(--border-strong);
+
+    transform:translateY(-1px);
+}
+
+.ability-list-icon{
+    width:46px;
+    height:46px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    margin-right:14px;
+
+    border:1px solid var(--border);
+
+    border-radius:13px;
+
+    background:#211719;
+
+    font-size:22px;
+}
+
+.ability-list-info{
+    display:flex;
+    flex:1;
+
+    flex-direction:column;
+
+    gap:4px;
+
+    min-width:0;
+}
+
+.ability-list-info strong{
+    font-size:16px;
+}
+
+.ability-list-info small{
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+.ability-list-arrow{
+    margin-left:12px;
+
+    color:#777;
+
+    font-size:28px;
+
+    line-height:1;
+}
+
+
+/* =========================
+   DETAIL CARD
+========================= */
+
+.ability-detail-card{
+    width:100%;
+
+    padding:22px;
+
+    border:1px solid var(--border);
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #160d0f 0%,
+            #11090b 100%
+        );
+
+    box-shadow:
+        0 18px 45px rgba(0,0,0,.28);
+}
+
+
+/* =========================
+   ROLE LABEL
+========================= */
+
+.detail-role{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    margin-bottom:18px;
+
+    padding:6px 10px;
+
+    border:1px solid var(--border);
+
+    border-radius:9px;
+
+    background:#1d1013;
+
+    color:#b9a5a8;
+
+    font-size:12px;
+    font-weight:600;
+
+    text-transform:uppercase;
+    letter-spacing:.4px;
+}
+
+.detail-role span{
+    font-size:16px;
+}
+
+
+/* =========================
+   ABILITY HEADER
+========================= */
+
+.ability-detail-head{
+    display:flex;
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:20px;
+}
+
+.ability-detail-icon{
+    width:60px;
+    height:60px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
+
+    border:1px solid var(--border-strong);
+
+    border-radius:16px;
+
+    background:#241116;
+
+    font-size:30px;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(215,25,32,.04);
+}
+
+.ability-detail-head h2{
+    font-size:25px;
+    font-weight:700;
+
+    letter-spacing:-.3px;
+}
+
+.ability-type{
+    display:inline-flex;
+
+    margin-top:5px;
+
+    padding:4px 8px;
+
+    border-radius:7px;
+
+    background:#291316;
+
+    color:#d5a6aa;
+
+    font-size:11px;
+    font-weight:600;
+
+    text-transform:uppercase;
+    letter-spacing:.4px;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.description-box{
+    margin-bottom:24px;
+
+    padding:17px;
+
+    border:1px solid var(--border);
+
+    border-radius:13px;
+
+    background:#0f090a;
+}
+
+.description-label{
+    display:block;
+
+    margin-bottom:8px;
+
+    color:#a96e73;
+
+    font-size:11px;
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:.8px;
+}
+
+.description-box p{
+    color:var(--soft);
+
+    font-size:15px;
+    line-height:1.7;
+}
+
+.description-box strong{
+    color:#fff;
+}
+
+
+/* =========================
+   SCALING SECTION
+========================= */
+
+.scaling-section{
+    margin-top:4px;
+}
+
+.scaling-heading{
+    display:flex;
+    align-items:center;
+
+    gap:11px;
+
+    margin-bottom:13px;
+
+    padding-bottom:13px;
+
+    border-bottom:1px solid var(--border);
+}
+
+.scaling-heading > span{
+    width:38px;
+    height:38px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid var(--border);
+
+    border-radius:10px;
+
+    background:#211115;
+
+    font-size:18px;
+}
+
+.scaling-heading h3{
+    font-size:16px;
+    font-weight:700;
+}
+
+.scaling-heading p{
+    margin-top:2px;
+
+    color:var(--muted);
+
+    font-size:12px;
+}
+
+
+/* =========================
+   SCALING CARDS
+========================= */
+
+.scaling-list{
+    display:flex;
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.scaling-card{
+    padding:15px;
+
+    border:1px solid var(--border);
+
+    border-radius:13px;
+
+    background:#10090b;
+}
+
+.scaling-card-title{
+    display:inline-block;
+
+    margin-bottom:10px;
+
+    padding:5px 8px;
+
+    border-radius:7px;
+
+    background:#291316;
+
+    color:#e1b2b6;
+
+    font-size:11px;
+    font-weight:700;
+
+    text-transform:uppercase;
+    letter-spacing:.4px;
+}
+
+.scaling-card p{
+    color:#bcb5b6;
+
+    font-size:14px;
+    line-height:1.65;
+}
+
+.scaling-card p + p{
+    margin-top:10px;
+}
+
+.scaling-card strong{
+    color:#f5f5f5;
+}
+
+
+/* =========================
+   SPECIAL AWAKENING
+========================= */
+
+.scaling-card p:has(strong:first-child){
+    /* visual support for Base / Despertar text */
+}
+
+.scaling-card p strong:first-child{
+    color:#e5b1b5;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+    .top-bar{
+        height:62px;
+        padding:0 16px;
+    }
+
+    .logo-button{
+        margin-left:12px;
+    }
+
+    .logo-button img{
+        height:38px;
+    }
+
+    .main-content{
+        padding:30px 15px 48px;
+    }
+
+    .page-title-row{
+        align-items:flex-start;
+        gap:12px;
+    }
+
+    .page-icon{
+        width:50px;
+        height:50px;
+
+        border-radius:13px;
+
+        font-size:23px;
+    }
+
+    .page-header h1{
+        font-size:27px;
+    }
+
+    .page-header p{
+        font-size:13px;
+    }
+
+    .role-card{
+        padding:15px;
+    }
+
+    .role-icon{
+        width:46px;
+        height:46px;
+
+        margin-right:12px;
+
+        font-size:23px;
+    }
+
+    .role-info strong{
+        font-size:17px;
+    }
+
+    .role-info > span{
+        font-size:12.5px;
+    }
+
+    .ability-list-card{
+        padding:13px;
+    }
+
+    .ability-list-icon{
+        width:43px;
+        height:43px;
+
+        margin-right:12px;
+
+        font-size:21px;
+    }
+
+    .ability-list-info strong{
+        font-size:15px;
+    }
+
+    .ability-detail-card{
+        padding:17px;
+
+        border-radius:16px;
+    }
+
+    .detail-role{
+        margin-bottom:15px;
+    }
+
+    .ability-detail-head{
+        gap:12px;
+    }
+
+    .ability-detail-icon{
+        width:52px;
+        height:52px;
+
+        border-radius:14px;
+
+        font-size:26px;
+    }
+
+    .ability-detail-head h2{
+        font-size:21px;
+    }
+
+    .description-box{
+        padding:14px;
+    }
+
+    .description-box p{
+        font-size:14px;
+        line-height:1.65;
+    }
+
+    .scaling-card{
+        padding:13px;
+    }
+
+    .scaling-card p{
+        font-size:13px;
+    }
+
+}
+
+@media(max-width:380px){
+
+    .main-content{
+        padding-left:12px;
+        padding-right:12px;
+    }
+
+    .role-card{
+        padding:13px;
+    }
+
+    .role-icon{
+        width:43px;
+        height:43px;
+
+        margin-right:10px;
+    }
+
+    .role-info strong{
+        font-size:16px;
+    }
+
+    .role-info > span{
+        font-size:12px;
+    }
+
+    .ability-detail-card{
+        padding:14px;
+    }
+
+}

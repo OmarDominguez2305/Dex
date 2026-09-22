@@ -1,0 +1,500 @@
+:root{
+    --bg:#080808;
+    --surface:#11090b;
+    --surface-2:#160d0f;
+    --surface-hover:#1d1013;
+    --text:#f2f2f2;
+    --muted:#999;
+    --border:#32171b;
+    --red:#d71920;
+    --red-dark:#8f1117;
+    --strong-bg:#132018;
+    --strong-text:#86c494;
+    --weak-bg:#241315;
+    --weak-text:#d98b8b;
+}
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    margin:0;
+    padding:0;
+    background:var(--bg);
+}
+
+body{
+    margin:0;
+    padding:0;
+    min-height:100vh;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+
+/* ========================================
+   BARRA SUPERIOR
+======================================== */
+
+.top-bar{
+    position:relative;
+    width:100%;
+    height:70px;
+    display:flex;
+    align-items:center;
+    padding:0 28px;
+    border-bottom:1px solid var(--border);
+    background:#0b0809;
+}
+
+
+.back-button{
+    width:42px;
+    height:42px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:15px;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:transparent;
+    color:var(--text);
+    font-size:22px;
+    cursor:pointer;
+    transition:
+        background .18s ease,
+        transform .15s ease;
+}
+
+
+.back-button:hover{
+    background:#1a0d10;
+}
+
+
+.back-button:active{
+    transform:scale(.94);
+}
+
+
+/* ========================================
+   LOGO
+======================================== */
+
+.logo-button{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#f5f5f5;
+    font:inherit;
+    cursor:pointer;
+}
+
+
+.logo-button img{
+    display:block;
+    width:auto;
+    height:42px;
+    object-fit:contain;
+}
+
+
+.logo-arrow{
+    margin-top:3px;
+    color:#999;
+    font-size:17px;
+    transition:transform .18s ease;
+}
+
+
+.logo-button.open .logo-arrow{
+    transform:rotate(180deg);
+}
+
+
+/* ========================================
+   CONTENIDO
+======================================== */
+
+.main-content{
+    width:100%;
+    max-width:1100px;
+    margin:0 auto;
+    padding:45px 28px 60px;
+}
+
+
+/* ========================================
+   ENCABEZADO
+======================================== */
+
+.page-header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    margin-bottom:30px;
+}
+
+
+.page-icon{
+    width:60px;
+    height:60px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--surface);
+    font-size:28px;
+}
+
+
+.page-header h1{
+    margin:0;
+    font-size:32px;
+    font-weight:650;
+    letter-spacing:-.8px;
+}
+
+
+.page-header p{
+    margin:7px 0 0;
+    color:var(--muted);
+    font-size:14px;
+    line-height:1.5;
+}
+
+
+/* ========================================
+   MULTIPLICADORES
+======================================== */
+
+.info-box{
+    display:flex;
+    align-items:center;
+    width:fit-content;
+    min-width:260px;
+    margin-bottom:28px;
+    padding:14px 20px;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:var(--surface);
+}
+
+
+.info-item{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+}
+
+
+.info-item strong{
+    color:#f4f4f4;
+    font-size:17px;
+}
+
+
+.info-item span{
+    color:var(--muted);
+    font-size:12px;
+}
+
+
+.info-divider{
+    width:1px;
+    height:35px;
+    margin:0 22px;
+    background:var(--border);
+}
+
+
+/* ========================================
+   GRID
+======================================== */
+
+.elements-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+
+/* ========================================
+   TARJETAS
+======================================== */
+
+.element-card{
+    padding:23px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:var(--surface);
+    box-shadow:0 8px 25px rgba(0,0,0,.28);
+    transition:
+        transform .2s ease,
+        background .2s ease,
+        border-color .2s ease;
+}
+
+
+.element-card:hover{
+    transform:translateY(-2px);
+    background:var(--surface-hover);
+    border-color:#472126;
+}
+
+
+/* ========================================
+   CABECERA ELEMENTO
+======================================== */
+
+.element-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+
+.element-icon{
+    width:52px;
+    height:52px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    border:1px solid var(--border);
+    border-radius:14px;
+    background:#0c0809;
+    font-size:25px;
+}
+
+
+.element-header h2{
+    margin:0 0 3px;
+    font-size:20px;
+    font-weight:650;
+}
+
+
+.element-header span{
+    color:var(--muted);
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+
+/* ========================================
+   MATCHUPS
+======================================== */
+
+.matchups{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+
+.matchup{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    min-width:0;
+    padding:13px;
+    border-radius:12px;
+}
+
+
+.matchup.strong{
+    background:var(--strong-bg);
+    color:var(--strong-text);
+}
+
+
+.matchup.weak{
+    background:var(--weak-bg);
+    color:var(--weak-text);
+}
+
+
+.matchup-label{
+    margin-bottom:3px;
+    font-size:11px;
+    font-weight:650;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+    opacity:.85;
+}
+
+
+.matchup span:not(.matchup-label){
+    font-size:13px;
+}
+
+
+/* ========================================
+   NOTA ESPECIAL
+======================================== */
+
+.special-note{
+    margin:14px 0 0;
+    padding-top:13px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.5;
+}
+
+
+/* ========================================
+   NOTA GENERAL
+======================================== */
+
+.boss-note{
+    margin-top:22px;
+    padding:18px 20px;
+    border:1px solid var(--border);
+    border-radius:15px;
+    background:var(--surface);
+}
+
+
+.boss-note strong{
+    font-size:14px;
+}
+
+
+.boss-note p{
+    margin:7px 0 0;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.6;
+}
+
+
+/* ========================================
+   TABLET
+======================================== */
+
+@media(max-width:750px){
+
+    .main-content{
+        padding:35px 20px 50px;
+    }
+
+    .elements-grid{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+}
+
+
+/* ========================================
+   MÓVIL
+======================================== */
+
+@media(max-width:480px){
+
+    .top-bar{
+        height:62px;
+        padding:0 16px;
+    }
+
+
+    .back-button{
+        width:40px;
+        height:40px;
+        margin-right:12px;
+    }
+
+
+    .logo-button img{
+        height:38px;
+    }
+
+
+    .main-content{
+        padding:30px 16px 40px;
+    }
+
+
+    .page-header{
+        align-items:flex-start;
+        gap:13px;
+        margin-bottom:25px;
+    }
+
+
+    .page-icon{
+        width:50px;
+        height:50px;
+        border-radius:13px;
+        font-size:23px;
+    }
+
+
+    .page-header h1{
+        font-size:27px;
+    }
+
+
+    .page-header p{
+        font-size:13px;
+    }
+
+
+    .info-box{
+        width:100%;
+        min-width:0;
+        justify-content:center;
+        padding:13px 15px;
+    }
+
+
+    .info-divider{
+        margin:0 18px;
+    }
+
+
+    .element-card{
+        padding:18px;
+        border-radius:15px;
+    }
+
+
+    .element-header{
+        margin-bottom:16px;
+    }
+
+
+    .matchups{
+        grid-template-columns:1fr;
+    }
+
+}
+
+
+/* ========================================
+   PANTALLAS BAJAS
+======================================== */
+
+@media(max-height:600px){
+
+    .main-content{
+        padding-top:28px;
+    }
+
+}

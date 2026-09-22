@@ -1,0 +1,35 @@
+/* ========================================
+   TRANSICIÓN GLOBAL DE PÁGINAS
+======================================== */
+
+body{
+    opacity:1;
+    transform:translateY(0);
+    transition:
+        opacity .25s ease,
+        transform .25s ease;
+}
+
+body.page-enter{
+    opacity:0;
+    transform:translateY(8px);
+}
+
+body.page-exit{
+    opacity:0;
+    transform:translateY(-8px);
+}
+
+@media(prefers-reduced-motion:reduce){
+
+    body{
+        transition:none;
+    }
+
+    body.page-enter,
+    body.page-exit{
+        opacity:1;
+        transform:none;
+    }
+
+}

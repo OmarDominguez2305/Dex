@@ -1,0 +1,60 @@
+:root{
+    --background:#f4f4f2;
+    --surface:#fff;
+    --surface-hover:#fafafa;
+    --text:#171717;
+    --secondary-text:#777;
+    --border:#ddd;
+    --shadow:rgba(0,0,0,.06);
+}
+
+html[data-theme="dark"]{
+    --background:#101010;
+    --surface:#181818;
+    --surface-hover:#202020;
+    --text:#f5f5f5;
+    --secondary-text:#999;
+    --border:#303030;
+    --shadow:rgba(0,0,0,.30);
+}
+
+body{
+    background:var(--background)!important;
+    color:var(--text)!important;
+}
+
+input,
+select,
+button{
+    color:var(--text);
+}
+
+.topbar,
+.top-bar,
+header{
+    background:var(--surface);
+    color:var(--text);
+    border-color:var(--border);
+}
+
+.card,
+.menu-card,
+.filter-card,
+.raid-card,
+.boss-select,
+.section,
+.preview-window{
+    background:var(--surface);
+    color:var(--text);
+    border-color:var(--border);
+}
+
+input,
+select{
+    background:var(--surface);
+    border-color:var(--border);
+}
+
+p{
+    color:var(--secondary-text);
+}

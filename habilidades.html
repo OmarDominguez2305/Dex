@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>Dex - Habilidades</title>
+<link rel="stylesheet" href="habilidades.css">
+<link rel="stylesheet" href="dex-menu.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080808;--surface:#120b0d;--surface2:#180e11;--surface3:#211115;--border:#35171c;--border2:#542129;--red:#d71920;--text:#f3f3f3;--muted:#9d9698;--soft:#c9c3c4}
+html,body{min-height:100%;background:var(--bg);color:var(--text)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:inherit}
+.top-bar{position:relative;height:70px;display:flex;align-items:center;padding:0 24px;background:#0b0809;border-bottom:1px solid var(--border)}
+.back-button{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:50%;background:transparent;color:#fff;font-size:23px;text-decoration:none}
+.logo-button{display:flex;align-items:center;gap:7px;margin-left:14px;padding:0;border:0;background:transparent;color:#f5f5f5;cursor:pointer}
+.logo-button img{height:42px;width:auto}
+.logo-arrow{color:#999;font-size:17px}
+.main-content{width:100%;max-width:900px;margin:auto;padding:42px 22px 70px}
+.page-header{margin-bottom:28px}
+.page-header h1{font-size:30px;letter-spacing:-.6px}
+.page-header p{margin-top:7px;color:var(--muted);font-size:14px}
+.roles-container,.ability-list,.scaling-list{display:flex;flex-direction:column;gap:12px}
+.role-card,.ability-list-card{width:100%;display:flex;align-items:center;text-align:left;padding:16px;border:1px solid var(--border);border-radius:15px;background:var(--surface);color:var(--text);text-decoration:none;cursor:pointer;transition:.18s}
+.role-card:hover,.ability-list-card:hover{background:var(--surface2);border-color:var(--border2);transform:translateY(-1px)}
+.role-icon,.ability-list-icon{width:50px;height:50px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:15px;border-radius:13px;background:#211719;font-size:25px}
+.role-info{flex:1}
+.role-info h2{font-size:18px}
+.role-info p{margin-top:5px;color:var(--muted);font-size:13px;line-height:1.45}
+.first-strike{display:inline-block;margin-top:9px;padding:5px 8px;border-radius:8px;background:#211719;color:#aaa;font-size:12px}
+.first-strike strong{color:#eee}
+.role-view{display:none}
+.role-view:target{display:block}
+body:has(.role-view:target) #roles{display:none}
+body:has(.role-view:target) .page-header{display:none}
+.inner-back{display:inline-flex;align-items:center;margin-bottom:18px;color:#b9a5a8;text-decoration:none;font-size:13px}
+.inner-back:hover{color:#fff}
+.role-heading{display:flex;align-items:center;gap:15px;margin-bottom:22px;padding:18px;border:1px solid var(--border);border-radius:17px;background:var(--surface)}
+.role-heading-icon{width:56px;height:56px;display:flex;align-items:center;justify-content:center;border-radius:15px;background:#211719;font-size:28px;flex-shrink:0}
+.role-heading h2{font-size:25px}
+.role-heading p{margin-top:5px;color:var(--muted);font-size:13px;line-height:1.5}
+.ability-list-card{padding:14px 16px}
+.ability-list-icon{width:46px;height:46px;margin-right:14px;font-size:22px}
+.ability-list-info{display:flex;flex:1;flex-direction:column;gap:4px}
+.ability-list-info strong{font-size:16px}
+.ability-list-info small{color:var(--muted);font-size:12px}
+.ability-list-arrow{color:#777;font-size:28px}
+.ability-details{margin-top:24px}
+.ability-detail{display:none}
+.ability-detail:target{display:block}
+body:has(.ability-detail:target) .ability-list{display:none}
+body:has(.ability-detail:target) .role-heading{display:none}
+body:has(.ability-detail:target) .ability-details{margin-top:0}
+.ability-card{padding:22px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(180deg,#160d0f,#11090b);box-shadow:0 18px 45px rgba(0,0,0,.28)}
+.ability-header{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.ability-icon{width:60px;height:60px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border2);border-radius:16px;background:#241116;font-size:30px}
+.ability-header h2{font-size:25px}
+.ability-type{display:inline-block;margin-top:5px;padding:4px 8px;border-radius:7px;background:#291316;color:#d5a6aa;font-size:11px;font-weight:600;text-transform:uppercase}
+.ability-description{margin-bottom:22px;padding:17px;border:1px solid var(--border);border-radius:13px;background:#0f090a;color:var(--soft);font-size:15px;line-height:1.7}
+.scaling-content{margin-top:4px}
+.scaling-content::before{content:"ESCALADO";display:block;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);color:#a96e73;font-size:11px;font-weight:700;letter-spacing:.8px}
+.scaling-list{gap:10px}
+.scaling-card{padding:15px;border:1px solid var(--border);border-radius:13px;background:#10090b}
+.scaling-card-title{display:inline-block;margin-bottom:10px;padding:5px 8px;border-radius:7px;background:#291316;color:#e1b2b6;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.scaling-card p{color:#bcb5b6;font-size:14px;line-height:1.65}
+.scaling-card p+p{margin-top:10px}
+.awakening{padding-top:10px;border-top:1px solid #291316}
+@media(max-width:600px){.top-bar{height:62px;padding:0 16px}.logo-button{margin-left:12px}.logo-button img{height:38px}.main-content{padding:30px 15px 48px}.page-header h1{font-size:27px}.role-heading{padding:15px}.role-heading h2{font-size:22px}.ability-card{padding:17px}.ability-header h2{font-size:21px}.ability-icon{width:52px;height:52px;font-size:26px}.ability-description{font-size:14px;padding:14px}.scaling-card p{font-size:13px}}
+</style>
+</head>
+<body id="roles">
+<header class="top-bar">
+<a class="back-button" href="inicio.html" aria-label="Volver a Inicio">←</a>
+<button id="dexMenuButton" class="logo-button" type="button" aria-label="Abrir menú de Dex"><img src="assets/dex-logo.png" alt="Dex"><span class="logo-arrow">⌄</span></button>
+</header>
+<main class="main-content">
+<section class="page-header">
+<h1>✨ Habilidades</h1><p>Selecciona un Role para consultar sus habilidades.</p>
+</section>
+<section id="roles" class="roles-container">
+<a class="role-card" href="#role-frontline"><div class="role-icon">🛡️</div><div class="role-info"><h2>Frontline</h2><p>Rol tanque resistente con herramientas para proteger a los aliados.</p><span class="first-strike">⚡ Puntuación de Primer Golpe: <strong>1</strong></span></div><span class="ability-list-arrow">›</span></a><a class="role-card" href="#role-support"><div class="role-icon">💚</div><div class="role-info"><h2>Support</h2><p>Rol de utilidad centrado en curaciones, mejoras y mantener estable al equipo.</p><span class="first-strike">⚡ Puntuación de Primer Golpe: <strong>2</strong></span></div><span class="ability-list-arrow">›</span></a><a class="role-card" href="#role-mastermind"><div class="role-icon">🧠</div><div class="role-info"><h2>Mastermind</h2><p>Rol táctico equilibrado centrado en control, interrupción y presión sobre todo el equipo.</p><span class="first-strike">⚡ Puntuación de Primer Golpe: <strong>3</strong></span></div><span class="ability-list-arrow">›</span></a><a class="role-card" href="#role-duelist"><div class="role-icon">⚔️</div><div class="role-info"><h2>Duelist</h2><p>Rol agresivo especializado en infligir grandes cantidades de daño.</p><span class="first-strike">⚡ Puntuación de Primer Golpe: <strong>4</strong></span></div><span class="ability-list-arrow">›</span></a><a class="role-card" href="#role-phantom"><div class="role-icon">👻</div><div class="role-info"><h2>Phantom</h2><p>Rol rápido y evasivo de ataques explosivos que favorece esquivar y atacar primero.</p><span class="first-strike">⚡ Puntuación de Primer Golpe: <strong>5</strong></span></div><span class="ability-list-arrow">›</span></a>
+</section>
+<section id="role-frontline" class="role-view" aria-labelledby="role-title-frontline">
+  <a class="inner-back" href="#roles">← Todos los roles</a>
+  <div class="role-heading">
+   <div class="role-heading-icon">🛡️</div>
+   <div><h2 id="role-title-frontline">Frontline</h2><p>Rol tanque resistente con herramientas para proteger a los aliados.</p></div>
+  </div>
+  <div class="ability-list"><a class="ability-list-card" href="#ability-frontline-0"><span class="ability-list-icon">🛡️</span><span class="ability-list-info"><strong>Opening Guard</strong><small>Defensa</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-frontline-1"><span class="ability-list-icon">❤️</span><span class="ability-list-info"><strong>Last Stand</strong><small>Supervivencia</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-frontline-2"><span class="ability-list-icon">📢</span><span class="ability-list-info"><strong>Provoke</strong><small>Control</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-frontline-3"><span class="ability-list-icon">👼</span><span class="ability-list-info"><strong>Guardian Angel</strong><small>Protección</small></span><span class="ability-list-arrow">›</span></a></div>
+  <div class="ability-details"><article class="ability-card ability-detail" id="ability-frontline-0"><a class="inner-back" href="#role-frontline">← Habilidades de Frontline</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        🛡️
+                    </div>
+<div>
+<h2>Opening Guard</h2>
+<span class="ability-type">
+                            Defensa
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Reduce el daño recibido en un
+                    <strong>40/50/60/75%</strong>
+                    durante los primeros
+                    <strong>2-4</strong> turnos de batalla.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Reduce el daño recibido en un
+                            <strong>40%</strong>
+                            durante los primeros
+                            <strong>2</strong> turnos de batalla.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Reduce el daño recibido en un
+                            <strong>50%</strong>
+                            durante los primeros
+                            <strong>3</strong> turnos de batalla.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Reduce el daño recibido en un
+                            <strong>60%</strong>
+                            durante los primeros
+                            <strong>3</strong> turnos de batalla.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Reduce el daño recibido en un
+                            <strong>75%</strong>
+                            durante los primeros
+                            <strong>4</strong> turnos de batalla.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-frontline-1"><a class="inner-back" href="#role-frontline">← Habilidades de Frontline</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        ❤️
+                    </div>
+<div>
+<h2>Last Stand</h2>
+<span class="ability-type">
+                            Supervivencia
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Una vez por batalla, cuando tus PS se reducen a
+                    <strong>0</strong>,
+                    recupera un
+                    <strong>25/28/32/45%</strong>
+                    de PS y reduce el siguiente daño recibido en un
+                    <strong>50/57/65/90%</strong>.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Una vez por batalla, cuando tus PS se reducen a
+                            <strong>0</strong>,
+                            recupera un
+                            <strong>25%</strong>
+                            de PS y reduce el siguiente daño recibido en un
+                            <strong>50%</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Una vez por batalla, cuando tus PS se reducen a
+                            <strong>0</strong>,
+                            recupera un
+                            <strong>28%</strong>
+                            de PS y reduce el siguiente daño recibido en un
+                            <strong>57%</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Una vez por batalla, cuando tus PS se reducen a
+                            <strong>0</strong>,
+                            recupera un
+                            <strong>32%</strong>
+                            de PS y reduce el siguiente daño recibido en un
+                            <strong>65%</strong>.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Una vez por batalla, cuando tus PS se reducen a
+                            <strong>0</strong>,
+                            recupera un
+                            <strong>45%</strong>
+                            de PS y reduce el siguiente daño recibido en un
+                            <strong>90%</strong>.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-frontline-2"><a class="inner-back" href="#role-frontline">← Habilidades de Frontline</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        📢
+                    </div>
+<div>
+<h2>Provoke</h2>
+<span class="ability-type">
+                            Control
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Obliga a todos los enemigos a atacarte durante
+                    <strong>2</strong> turnos a partir del
+                    <strong>turno 3</strong>.
+                    Después entra en un tiempo de reutilización de
+                    <strong>7/6/5/4</strong> turnos.
+                    Mientras está activa, recibes un
+                    <strong>50%</strong> más de daño.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común</div><p>
+                            Obliga a todos los enemigos a atacarte durante
+                            <strong>2</strong> turnos a partir del
+                            <strong>turno 3</strong>.
+                            Tiempo de reutilización de
+                            <strong>7</strong> turnos.
+                            Mientras está activa, recibes un
+                            <strong>50%</strong> más de daño.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Raro</div><p>
+                            Obliga a todos los enemigos a atacarte durante
+                            <strong>2</strong> turnos a partir del
+                            <strong>turno 3</strong>.
+                            Tiempo de reutilización de
+                            <strong>6</strong> turnos.
+                            Mientras está activa, recibes un
+                            <strong>50%</strong> más de daño.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Obliga a todos los enemigos a atacarte durante
+                            <strong>2</strong> turnos a partir del
+                            <strong>turno 3</strong>.
+                            Tiempo de reutilización de
+                            <strong>5</strong> turnos.
+                            Mientras está activa, recibes un
+                            <strong>50%</strong> más de daño.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Obliga a todos los enemigos a atacarte durante
+                            <strong>2</strong> turnos a partir del
+                            <strong>turno 3</strong>.
+                            Tiempo de reutilización de
+                            <strong>5</strong> turnos.
+                            Mientras está activa, recibes un
+                            <strong>50%</strong> más de daño.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Tiempo de reutilización de
+                            <strong>4</strong> turnos.
+                            El resto del efecto permanece igual.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-frontline-3"><a class="inner-back" href="#role-frontline">← Habilidades de Frontline</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        👼
+                    </div>
+<div>
+<h2>Guardian Angel</h2>
+<span class="ability-type">
+                            Protección
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Una vez por batalla, te sacrificas para recibir un golpe letal dirigido a un aliado.
+                    El aliado sobrevive con
+                    <strong>25/40/45/50%</strong>
+                    de PS.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Una vez por batalla, te sacrificas para recibir un golpe letal dirigido a un aliado.
+                            El aliado sobrevive con
+                            <strong>25%</strong>
+                            de PS.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Una vez por batalla, te sacrificas para recibir un golpe letal dirigido a un aliado.
+                            El aliado sobrevive con
+                            <strong>40%</strong>
+                            de PS.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Una vez por batalla, te sacrificas para recibir un golpe letal dirigido a un aliado.
+                            El aliado sobrevive con
+                            <strong>45%</strong>
+                            de PS.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Una vez por batalla, te sacrificas para recibir un golpe letal dirigido a un aliado.
+                            El aliado sobrevive con
+                            <strong>50%</strong>
+                            de PS.
+                        </p></article></div></div>
+</details>
+</article></div>
+ </section><section id="role-support" class="role-view" aria-labelledby="role-title-support">
+  <a class="inner-back" href="#roles">← Todos los roles</a>
+  <div class="role-heading">
+   <div class="role-heading-icon">💚</div>
+   <div><h2 id="role-title-support">Support</h2><p>Rol de utilidad centrado en curaciones, mejoras y mantener estable al equipo.</p></div>
+  </div>
+  <div class="ability-list"><a class="ability-list-card" href="#ability-support-0"><span class="ability-list-icon">✨</span><span class="ability-list-info"><strong>Mending Light</strong><small>Curación</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-support-1"><span class="ability-list-icon">📣</span><span class="ability-list-info"><strong>War Chant</strong><small>Mejora</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-support-2"><span class="ability-list-icon">💚</span><span class="ability-list-info"><strong>Remembrance</strong><small>Curación</small></span><span class="ability-list-arrow">›</span></a></div>
+  <div class="ability-details"><article class="ability-card ability-detail" id="ability-support-0"><a class="inner-back" href="#role-support">← Habilidades de Support</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        ✨
+                    </div>
+<div>
+<h2>Mending Light</h2>
+<span class="ability-type">
+                            Curación
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Restaura entre un
+                    <strong>12/15/18/23%</strong>
+                    de los PS de
+                    <strong>cada miembro del equipo</strong>
+                    en el
+                    <strong>3.er turno</strong>
+                    y posteriormente cada
+                    <strong>3 turnos</strong>.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Restaura un
+                            <strong>12%</strong>
+                            de los PS de
+                            <strong>cada miembro del equipo</strong>
+                            en el
+                            <strong>3.er turno</strong>
+                            y posteriormente cada
+                            <strong>3 turnos</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Restaura un
+                            <strong>15%</strong>
+                            de los PS de
+                            <strong>cada miembro del equipo</strong>
+                            en el
+                            <strong>3.er turno</strong>
+                            y posteriormente cada
+                            <strong>3 turnos</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Restaura un
+                            <strong>18%</strong>
+                            de los PS de
+                            <strong>cada miembro del equipo</strong>
+                            en el
+                            <strong>3.er turno</strong>
+                            y posteriormente cada
+                            <strong>3 turnos</strong>.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Restaura un
+                            <strong>23%</strong>
+                            de los PS de
+                            <strong>cada miembro del equipo</strong>
+                            en el
+                            <strong>3.er turno</strong>
+                            y posteriormente cada
+                            <strong>3 turnos</strong>.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-support-1"><a class="inner-back" href="#role-support">← Habilidades de Support</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        📣
+                    </div>
+<div>
+<h2>War Chant</h2>
+<span class="ability-type">
+                            Mejora
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Aumenta el ATQ de
+                    <strong>todos los miembros del equipo</strong>
+                    en un
+                    <strong>20/30/40/60%</strong>
+                    durante
+                    <strong>2 turnos</strong>
+                    al inicio de la batalla y posteriormente cada
+                    <strong>4 turnos</strong>.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Aumenta el ATQ de
+                            <strong>todos los miembros del equipo</strong>
+                            en un
+                            <strong>20%</strong>
+                            durante
+                            <strong>2 turnos</strong>
+                            al inicio de la batalla y posteriormente cada
+                            <strong>4 turnos</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Aumenta el ATQ de
+                            <strong>todos los miembros del equipo</strong>
+                            en un
+                            <strong>30%</strong>
+                            durante
+                            <strong>2 turnos</strong>
+                            al inicio de la batalla y posteriormente cada
+                            <strong>4 turnos</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Aumenta el ATQ de
+                            <strong>todos los miembros del equipo</strong>
+                            en un
+                            <strong>40%</strong>
+                            durante
+                            <strong>2 turnos</strong>
+                            al inicio de la batalla y posteriormente cada
+                            <strong>4 turnos</strong>.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Aumenta el ATQ de
+                            <strong>todos los miembros del equipo</strong>
+                            en un
+                            <strong>60%</strong>
+                            durante
+                            <strong>2 turnos</strong>
+                            al inicio de la batalla y posteriormente cada
+                            <strong>4 turnos</strong>.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-support-2"><a class="inner-back" href="#role-support">← Habilidades de Support</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        💚
+                    </div>
+<div>
+<h2>Remembrance</h2>
+<span class="ability-type">
+                            Curación
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Cuando un aliado muere, cura a todos los demás aliados por un
+                    <strong>20/35/50/75%</strong>
+                    de sus PS máximos.
+                    <strong>No se ve afectada por efectos que impiden la curación.</strong>
+</p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común</div><p>
+                            Cuando un aliado muere, cura a todos los demás aliados por un
+                            <strong>20%</strong>
+                            de sus PS máximos.
+                            <strong>No se ve afectada por efectos que impiden la curación.</strong>
+</p></article><article class="scaling-card"><div class="scaling-card-title">Raro</div><p>
+                            Cuando un aliado muere, cura a todos los demás aliados por un
+                            <strong>35%</strong>
+                            de sus PS máximos.
+                            <strong>No se ve afectada por efectos que impiden la curación.</strong>
+</p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Cuando un aliado muere, cura a todos los demás aliados por un
+                            <strong>50%</strong>
+                            de sus PS máximos.
+                            <strong>No se ve afectada por efectos que impiden la curación.</strong>
+</p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Cuando un aliado muere, cura a todos los demás aliados por un
+                            <strong>50%</strong>
+                            de sus PS máximos.
+                            <strong>No se ve afectada por efectos que impiden la curación.</strong>
+</p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Cuando un aliado muere, cura a todos los demás aliados por un
+                            <strong>75%</strong>
+                            de sus PS máximos.
+                            <strong>No se ve afectada por efectos que impiden la curación.</strong>
+</p></article></div></div>
+</details>
+</article></div>
+ </section><section id="role-mastermind" class="role-view" aria-labelledby="role-title-mastermind">
+  <a class="inner-back" href="#roles">← Todos los roles</a>
+  <div class="role-heading">
+   <div class="role-heading-icon">🧠</div>
+   <div><h2 id="role-title-mastermind">Mastermind</h2><p>Rol táctico equilibrado centrado en control, interrupción y presión sobre todo el equipo.</p></div>
+  </div>
+  <div class="ability-list"><a class="ability-list-card" href="#ability-mastermind-0"><span class="ability-list-icon">♟️</span><span class="ability-list-info"><strong>Checkmate</strong><small>Ejecución</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-mastermind-1"><span class="ability-list-icon">🧠</span><span class="ability-list-info"><strong>Mind Games</strong><small>Control</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-mastermind-2"><span class="ability-list-icon">🤐</span><span class="ability-list-info"><strong>Blackmail</strong><small>Silencio</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-mastermind-3"><span class="ability-list-icon">♟️</span><span class="ability-list-info"><strong>Pieces in Play</strong><small>Pasiva</small></span><span class="ability-list-arrow">›</span></a></div>
+  <div class="ability-details"><article class="ability-card ability-detail" id="ability-mastermind-0"><a class="inner-back" href="#role-mastermind">← Habilidades de Mastermind</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        ♟️
+                    </div>
+<div>
+<h2>Checkmate</h2>
+<span class="ability-type">
+                            Ejecución
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Una vez por objetivo, si los PS del objetivo están por debajo del
+                    <strong>20/22/25/30%</strong>,
+                    inflige
+                    <strong>2.0x/2.3x/2.6x/3.0x</strong>
+                    de daño.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Una vez por objetivo, si los PS del objetivo están por debajo del
+                            <strong>20%</strong>,
+                            inflige
+                            <strong>2.0x</strong>
+                            de daño.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Una vez por objetivo, si los PS del objetivo están por debajo del
+                            <strong>22%</strong>,
+                            inflige
+                            <strong>2.3x</strong>
+                            de daño.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Una vez por objetivo, si los PS del objetivo están por debajo del
+                            <strong>25%</strong>,
+                            inflige
+                            <strong>2.6x</strong>
+                            de daño.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Una vez por objetivo, si los PS del objetivo están por debajo del
+                            <strong>30%</strong>,
+                            inflige
+                            <strong>3.0x</strong>
+                            de daño.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-mastermind-1"><a class="inner-back" href="#role-mastermind">← Habilidades de Mastermind</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        🧠
+                    </div>
+<div>
+<h2>Mind Games</h2>
+<span class="ability-type">
+                            Control
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Al atacar, tienes un
+                    <strong>20/25/30/40%</strong>
+                    de probabilidad de confundir al enemigo, reduciendo su daño en un
+                    <strong>15/20/25/35%</strong>
+                    durante
+                    <strong>2 turnos</strong>.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Al atacar, tienes un
+                            <strong>20%</strong>
+                            de probabilidad de confundir al enemigo, reduciendo su daño en un
+                            <strong>15%</strong>
+                            durante
+                            <strong>2 turnos</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Al atacar, tienes un
+                            <strong>25%</strong>
+                            de probabilidad de confundir al enemigo, reduciendo su daño en un
+                            <strong>20%</strong>
+                            durante
+                            <strong>2 turnos</strong>.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Al atacar, tienes un
+                            <strong>30%</strong>
+                            de probabilidad de confundir al enemigo, reduciendo su daño en un
+                            <strong>25%</strong>
+                            durante
+                            <strong>2 turnos</strong>.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Al atacar, tienes un
+                            <strong>40%</strong>
+                            de probabilidad de confundir al enemigo, reduciendo su daño en un
+                            <strong>35%</strong>
+                            durante
+                            <strong>2 turnos</strong>.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-mastermind-2"><a class="inner-back" href="#role-mastermind">← Habilidades de Mastermind</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        🤐
+                    </div>
+<div>
+<h2>Blackmail</h2>
+<span class="ability-type">
+                            Silencio
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Tienes un
+                    <strong>13/15/17/20%</strong>
+                    de probabilidad de
+                    <strong>silenciar</strong>
+                    a un enemigo cuando intenta usar una habilidad, evitando que dicha habilidad se active.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+<strong>13%</strong>
+                            de probabilidad de
+                            <strong>silenciar</strong>
+                            a un enemigo cuando intenta usar una habilidad, evitando que dicha habilidad se active.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+<strong>15%</strong>
+                            de probabilidad de
+                            <strong>silenciar</strong>
+                            a un enemigo cuando intenta usar una habilidad, evitando que dicha habilidad se active.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+<strong>17%</strong>
+                            de probabilidad de
+                            <strong>silenciar</strong>
+                            a un enemigo cuando intenta usar una habilidad, evitando que dicha habilidad se active.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+<strong>20%</strong>
+                            de probabilidad de
+                            <strong>silenciar</strong>
+                            a un enemigo cuando intenta usar una habilidad, evitando que dicha habilidad se active.
+                        </p></article></div></div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-mastermind-3"><a class="inner-back" href="#role-mastermind">← Habilidades de Mastermind</a>
+<div class="ability-header">
+<div class="ability-icon">
+                        ♟️
+                    </div>
+<div>
+<h2>Pieces in Play</h2>
+<span class="ability-type">
+                            Pasiva
+                        </span>
+</div>
+</div>
+<p class="ability-description">
+                    Todos los aliados infligen
+                    <strong>1/3/5/8%</strong>
+                    más daño mientras estés con vida.
+                </p>
+<details class="scaling-details" open="">
+
+<div class="scaling-content"><div class="scaling-list"><article class="scaling-card"><div class="scaling-card-title">Común - Exótico</div><p>
+                            Pasiva: mientras estés con vida, todos los aliados infligen
+                            <strong>+1%</strong>
+                            de daño.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Legendario</div><p>
+                            Pasiva: mientras estés con vida, todos los aliados infligen
+                            <strong>+3%</strong>
+                            de daño.
+                        </p></article><article class="scaling-card"><div class="scaling-card-title">Mítico</div><p>
+<strong>Base:</strong>
+                            Pasiva: mientras estés con vida, todos los aliados infligen
+                            <strong>+5%</strong>
+                            de daño.
+                        </p><p class="awakening">
+<strong>Despertar 5:</strong>
+                            Pasiva: mientras estés con vida, todos los aliados infligen
+                            <strong>+8%</strong>
+                            de daño.
+                        </p></article></div></div>
+</details>
+</article></div>
+ </section><section id="role-duelist" class="role-view" aria-labelledby="role-title-duelist">
+  <a class="inner-back" href="#roles">← Todos los roles</a>
+  <div class="role-heading">
+   <div class="role-heading-icon">⚔️</div>
+   <div><h2 id="role-title-duelist">Duelist</h2><p>Rol agresivo especializado en infligir grandes cantidades de daño.</p></div>
+  </div>
+  <div class="ability-list"><a class="ability-list-card" href="#ability-duelist-0"><span class="ability-list-icon">🔄</span><span class="ability-list-info"><strong>Riposte</strong><small>Contraataque</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-duelist-1"><span class="ability-list-icon">🩸</span><span class="ability-list-info"><strong>Bloodlust</strong><small>Curación</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-duelist-2"><span class="ability-list-icon">💀</span><span class="ability-list-info"><strong>Mortal Wound</strong><small>Anti-curación</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-duelist-3"><span class="ability-list-icon">🎯</span><span class="ability-list-info"><strong>True Strike</strong><small>Precisión</small></span><span class="ability-list-arrow">›</span></a></div>
+  <div class="ability-details"><article class="ability-card ability-detail" id="ability-duelist-0"><a class="inner-back" href="#role-duelist">← Habilidades de Duelist</a>
+<div class="ability-header">
+<div class="ability-icon">🔄</div>
+<div>
+<h2>Riposte</h2>
+<span class="ability-type">Contraataque</span>
+</div>
+</div>
+<p class="ability-description">
+                    Al ser atacado, tiene un
+                    <strong>25/30/35/40%</strong> de probabilidad de
+                    contraatacar inmediatamente e infligir entre
+                    <strong>50/57/65/75%</strong> del ATQ.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común - Exótico</h3>
+<p>
+                                Al ser atacado, tiene un <strong>25%</strong>
+                                de probabilidad de contraatacar inmediatamente
+                                e infligir <strong>50%</strong> del ATQ.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+                                Al ser atacado, tiene un <strong>30%</strong>
+                                de probabilidad de contraatacar inmediatamente
+                                e infligir <strong>57%</strong> del ATQ.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Mítico</h3>
+<p>
+<strong>Base:</strong> Al ser atacado, tiene un
+                                <strong>35%</strong> de probabilidad de
+                                contraatacar inmediatamente e infligir
+                                <strong>65%</strong> del ATQ.
+                            </p>
+<p>
+<strong>Despertar 5:</strong> Al ser atacado,
+                                tiene un <strong>40%</strong> de probabilidad
+                                de contraatacar inmediatamente e infligir
+                                <strong>75%</strong> del ATQ.
+                            </p>
+</div>
+</div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-duelist-1"><a class="inner-back" href="#role-duelist">← Habilidades de Duelist</a>
+<div class="ability-header">
+<div class="ability-icon">🩸</div>
+<div>
+<h2>Bloodlust</h2>
+<span class="ability-type">Curación</span>
+</div>
+</div>
+<p class="ability-description">
+<strong>Cada 3.er golpe</strong>, se cura por un
+                    <strong>80/90/100/120%</strong> del daño infligido
+                    a los enemigos.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común - Exótico</h3>
+<p>
+<strong>Cada 3.er golpe</strong>, se cura por
+                                el <strong>80%</strong> del daño infligido
+                                a los enemigos.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+<strong>Cada 3.er golpe</strong>, se cura por
+                                el <strong>90%</strong> del daño infligido
+                                a los enemigos.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Mítico</h3>
+<p>
+<strong>Base:</strong> <strong>Cada 3.er golpe</strong>,
+                                se cura por el <strong>100%</strong> del daño
+                                infligido a los enemigos.
+                            </p>
+<p>
+<strong>Despertar 5:</strong>
+<strong>Cada 3.er golpe</strong>, se cura por
+                                el <strong>120%</strong> del daño infligido
+                                a los enemigos.
+                            </p>
+</div>
+</div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-duelist-2"><a class="inner-back" href="#role-duelist">← Habilidades de Duelist</a>
+<div class="ability-header">
+<div class="ability-icon">💀</div>
+<div>
+<h2>Mortal Wound</h2>
+<span class="ability-type">Anti-curación</span>
+</div>
+</div>
+<p class="ability-description">
+                    Cada golpe acertado aplica una acumulación que reduce la
+                    curación recibida por el objetivo en
+                    <strong>5/7/9/12%</strong>, hasta un máximo de
+                    <strong>90%</strong> por objetivo.
+                    Las acumulaciones persisten durante
+                    <strong>1/2/3/4 turnos</strong> después de la muerte.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común - Exótico</h3>
+<p>
+                                Cada golpe acertado aplica una acumulación que
+                                reduce la curación recibida por el objetivo en
+                                <strong>5%</strong>, hasta un máximo de
+                                <strong>90%</strong> por objetivo.
+                                Las acumulaciones son fijas por golpe y
+                                persisten durante <strong>1 turno</strong>
+                                después de la muerte.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+                                Cada golpe acertado aplica una acumulación que
+                                reduce la curación recibida por el objetivo en
+                                <strong>7%</strong>, hasta un máximo de
+                                <strong>90%</strong> por objetivo.
+                                Las acumulaciones son fijas por golpe y
+                                persisten durante <strong>2 turnos</strong>
+                                después de la muerte.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Mítico</h3>
+<p>
+<strong>Base:</strong> Cada golpe acertado
+                                aplica una acumulación que reduce la curación
+                                recibida por el objetivo en <strong>9%</strong>,
+                                hasta un máximo de <strong>90%</strong> por
+                                objetivo. Las acumulaciones son fijas por golpe
+                                y persisten durante <strong>3 turnos</strong>
+                                después de la muerte.
+                            </p>
+<p>
+<strong>Despertar 5:</strong> Cada golpe
+                                acertado aplica una acumulación que reduce la
+                                curación recibida por el objetivo en
+                                <strong>12%</strong>, hasta un máximo de
+                                <strong>90%</strong> por objetivo.
+                                Las acumulaciones son fijas por golpe y
+                                persisten durante <strong>4 turnos</strong>
+                                después de la muerte.
+                            </p>
+</div>
+</div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-duelist-3"><a class="inner-back" href="#role-duelist">← Habilidades de Duelist</a>
+<div class="ability-header">
+<div class="ability-icon">🎯</div>
+<div>
+<h2>True Strike</h2>
+<span class="ability-type">Precisión</span>
+</div>
+</div>
+<p class="ability-description">
+                    Tus ataques no pueden ser esquivados.
+                    Cuando el oponente intenta esquivar tu ataque,
+                    infliges <strong>1.5/2.0/2.5/3.5x</strong> de daño
+                    en su lugar.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común</h3>
+<p>
+                                Tus ataques no pueden ser esquivados.
+                                Cuando el oponente intenta esquivar tu ataque,
+                                infliges <strong>1.5x</strong> de daño.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Raro</h3>
+<p>
+                                Tus ataques no pueden ser esquivados.
+                                Cuando el oponente intenta esquivar tu ataque,
+                                infliges <strong>2.0x</strong> de daño.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Exótico</h3>
+<p>
+                                Tus ataques no pueden ser esquivados.
+                                Cuando el oponente intenta esquivar tu ataque,
+                                infliges <strong>2.5x</strong> de daño.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+                                Tus ataques no pueden ser esquivados.
+                                Cuando el oponente intenta esquivar tu ataque,
+                                infliges <strong>3.5x</strong> de daño.
+                            </p>
+</div>
+</div>
+</details>
+</article></div>
+ </section><section id="role-phantom" class="role-view" aria-labelledby="role-title-phantom">
+  <a class="inner-back" href="#roles">← Todos los roles</a>
+  <div class="role-heading">
+   <div class="role-heading-icon">👻</div>
+   <div><h2 id="role-title-phantom">Phantom</h2><p>Rol rápido y evasivo de ataques explosivos que favorece esquivar y atacar primero.</p></div>
+  </div>
+  <div class="ability-list"><a class="ability-list-card" href="#ability-phantom-0"><span class="ability-list-icon">🌑</span><span class="ability-list-info"><strong>Shadowstep</strong><small>Evasión</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-phantom-1"><span class="ability-list-icon">💥</span><span class="ability-list-info"><strong>Phantom Rebound</strong><small>Supervivencia</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-phantom-2"><span class="ability-list-icon">🥷</span><span class="ability-list-info"><strong>From the Shadows</strong><small>Emboscada</small></span><span class="ability-list-arrow">›</span></a><a class="ability-list-card" href="#ability-phantom-3"><span class="ability-list-icon">☠️</span><span class="ability-list-info"><strong>Lingering Venom</strong><small>Veneno</small></span><span class="ability-list-arrow">›</span></a></div>
+  <div class="ability-details"><article class="ability-card ability-detail" id="ability-phantom-0"><a class="inner-back" href="#role-phantom">← Habilidades de Phantom</a>
+<div class="ability-header">
+<div class="ability-icon">🌑</div>
+<div>
+<h2>Shadowstep</h2>
+<span class="ability-type">Evasión</span>
+</div>
+</div>
+<p class="ability-description">
+                    Tiene un <strong>20/25/30/40%</strong> de probabilidad
+                    de esquivar completamente cualquier ataque recibido.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común - Exótico</h3>
+<p>
+                                Tiene un <strong>20%</strong> de probabilidad
+                                de esquivar completamente cualquier ataque
+                                recibido.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+                                Tiene un <strong>25%</strong> de probabilidad
+                                de esquivar completamente cualquier ataque
+                                recibido.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Mítico</h3>
+<p>
+<strong>Base:</strong> Tiene un
+                                <strong>30%</strong> de probabilidad de
+                                esquivar completamente cualquier ataque
+                                recibido.
+                            </p>
+<p>
+<strong>Despertar 5:</strong> Tiene un
+                                <strong>40%</strong> de probabilidad de
+                                esquivar completamente cualquier ataque
+                                recibido.
+                            </p>
+</div>
+</div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-phantom-1"><a class="inner-back" href="#role-phantom">← Habilidades de Phantom</a>
+<div class="ability-header">
+<div class="ability-icon">💥</div>
+<div>
+<h2>Phantom Rebound</h2>
+<span class="ability-type">Supervivencia</span>
+</div>
+</div>
+<p class="ability-description">
+                    Una vez por batalla, cuando los PS caen por debajo del
+                    <strong>25%</strong>, automáticamente recibe
+                    <strong>0 de daño</strong> durante los siguientes
+                    <strong>2/3</strong> turnos protegidos y aumenta el
+                    ATQ en <strong>25/28/32/37%</strong> durante
+                    <strong>2 turnos</strong>.
+                    Si el golpe que activa el efecto es letal, se anula y se
+                    consume inmediatamente <strong>1 turno protegido</strong>.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común - Exótico</h3>
+<p>
+                                Una vez por batalla, cuando los PS caen por
+                                debajo del <strong>25%</strong>, automáticamente
+                                recibe <strong>0 de daño</strong> durante los
+                                siguientes <strong>2 turnos protegidos</strong>
+                                y aumenta el ATQ en <strong>25%</strong>
+                                durante <strong>2 turnos</strong>.
+                            </p>
+<p>
+                                Si el golpe que activa el efecto es letal,
+                                se anula y se consume inmediatamente
+                                <strong>1 turno protegido</strong>.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+                                Una vez por batalla, cuando los PS caen por
+                                debajo del <strong>25%</strong>, automáticamente
+                                recibe <strong>0 de daño</strong> durante los
+                                siguientes <strong>2 turnos protegidos</strong>
+                                y aumenta el ATQ en <strong>28%</strong>
+                                durante <strong>2 turnos</strong>.
+                            </p>
+<p>
+                                Si el golpe que activa el efecto es letal,
+                                se anula y se consume inmediatamente
+                                <strong>1 turno protegido</strong>.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Mítico</h3>
+<p>
+<strong>Base:</strong> Una vez por batalla,
+                                cuando los PS caen por debajo del
+                                <strong>25%</strong>, automáticamente recibe
+                                <strong>0 de daño</strong> durante los
+                                siguientes <strong>2 turnos protegidos</strong>
+                                y aumenta el ATQ en <strong>32%</strong>
+                                durante <strong>2 turnos</strong>.
+                            </p>
+<p>
+                                Si el golpe que activa el efecto es letal,
+                                se anula y se consume inmediatamente
+                                <strong>1 turno protegido</strong>.
+                            </p>
+<p>
+<strong>Despertar 5:</strong> Una vez por
+                                batalla, cuando los PS caen por debajo del
+                                <strong>25%</strong>, automáticamente recibe
+                                <strong>0 de daño</strong> durante los
+                                siguientes <strong>3 turnos protegidos</strong>
+                                y aumenta el ATQ en <strong>37%</strong>
+                                durante <strong>2 turnos</strong>.
+                            </p>
+<p>
+                                Si el golpe que activa el efecto es letal,
+                                se anula y se consume inmediatamente
+                                <strong>1 turno protegido</strong>.
+                            </p>
+</div>
+</div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-phantom-2"><a class="inner-back" href="#role-phantom">← Habilidades de Phantom</a>
+<div class="ability-header">
+<div class="ability-icon">🥷</div>
+<div>
+<h2>From the Shadows</h2>
+<span class="ability-type">Emboscada</span>
+</div>
+</div>
+<p class="ability-description">
+                    Se vuelve <strong>invisible</strong> al comenzar la batalla.
+                    Mientras es invisible, no puede ser seleccionado como
+                    objetivo ni atacar durante <strong>3 turnos</strong>.
+                    Su siguiente ataque embosca al enemigo con los PS actuales
+                    más bajos, infligiendo <strong>2.0/2.3/2.6/3.0x</strong>
+                    de daño y lo <strong>aturde</strong> durante
+                    <strong>1 turno</strong>.
+                    Si la emboscada elimina al objetivo, obtiene un
+                    <strong>100% de probabilidad de esquivar</strong>
+                    durante el siguiente turno.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común - Exótico</h3>
+<p>
+                                Se vuelve <strong>invisible</strong> al comenzar
+                                la batalla. Mientras es invisible, no puede ser
+                                seleccionado como objetivo ni atacar durante
+                                <strong>3 turnos</strong>.
+                            </p>
+<p>
+                                Su siguiente ataque embosca al enemigo con los
+                                PS actuales más bajos, infligiendo
+                                <strong>1.5x</strong> de daño y lo
+                                <strong>aturde</strong> durante
+                                <strong>1 turno</strong>.
+                            </p>
+<p>
+                                Si la emboscada elimina al objetivo, obtiene
+                                un <strong>100% de probabilidad de esquivar</strong>
+                                durante el siguiente turno.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+                                Se vuelve <strong>invisible</strong> al comenzar
+                                la batalla. Mientras es invisible, no puede ser
+                                seleccionado como objetivo ni atacar durante
+                                <strong>3 turnos</strong>.
+                            </p>
+<p>
+                                Su siguiente ataque embosca al enemigo con los
+                                PS actuales más bajos, infligiendo
+                                <strong>1.8x</strong> de daño y lo
+                                <strong>aturde</strong> durante
+                                <strong>1 turno</strong>.
+                            </p>
+<p>
+                                Si la emboscada elimina al objetivo, obtiene
+                                un <strong>100% de probabilidad de esquivar</strong>
+                                durante el siguiente turno.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Mítico</h3>
+<p>
+<strong>Base:</strong> Se vuelve
+                                <strong>invisible</strong> al comenzar la
+                                batalla. Mientras es invisible, no puede ser
+                                seleccionado como objetivo ni atacar durante
+                                <strong>3 turnos</strong>.
+                            </p>
+<p>
+                                Su siguiente ataque embosca al enemigo con los
+                                PS actuales más bajos, infligiendo
+                                <strong>2.1x</strong> de daño y lo
+                                <strong>aturde</strong> durante
+                                <strong>1 turno</strong>.
+                            </p>
+<p>
+                                Si la emboscada elimina al objetivo, obtiene
+                                un <strong>100% de probabilidad de esquivar</strong>
+                                durante el siguiente turno.
+                            </p>
+<p>
+<strong>Despertar 5:</strong> Se vuelve
+                                <strong>invisible</strong> al comenzar la
+                                batalla. Mientras es invisible, no puede ser
+                                seleccionado como objetivo ni atacar durante
+                                <strong>3 turnos</strong>.
+                            </p>
+<p>
+                                Su siguiente ataque embosca al enemigo con los
+                                PS actuales más bajos, infligiendo
+                                <strong>2.5x</strong> de daño y lo
+                                <strong>aturde</strong> durante
+                                <strong>1 turno</strong>.
+                            </p>
+<p>
+                                Si la emboscada elimina al objetivo, obtiene
+                                un <strong>100% de probabilidad de esquivar</strong>
+                                durante el siguiente turno.
+                            </p>
+</div>
+</div>
+</details>
+</article><article class="ability-card ability-detail" id="ability-phantom-3"><a class="inner-back" href="#role-phantom">← Habilidades de Phantom</a>
+<div class="ability-header">
+<div class="ability-icon">☠️</div>
+<div>
+<h2>Lingering Venom</h2>
+<span class="ability-type">Veneno</span>
+</div>
+</div>
+<p class="ability-description">
+                    Al comenzar la batalla, lanza una daga envenenada.
+                    El daño del veneno aumenta en
+                    <strong>1/2/3/4.5% del ATQ</strong> por cada turno
+                    que permanezcas con vida, hasta un máximo de
+                    <strong>60% del ATQ por turno</strong>.
+                    Te curas por <strong>5/10/15/25%</strong> de cada
+                    tic de veneno.
+                </p>
+<details open="">
+
+<div class="scaling">
+<div class="scaling-block">
+<h3>Común - Exótico</h3>
+<p>
+                                Al comenzar la batalla, lanza una daga
+                                envenenada. El daño del veneno aumenta en
+                                <strong>1% del ATQ</strong> por cada turno
+                                que permanezcas con vida.
+                            </p>
+<p>
+                                Te curas por el <strong>5%</strong> del daño
+                                del veneno.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Legendario</h3>
+<p>
+                                Al comenzar la batalla, lanza una daga
+                                envenenada. El daño del veneno aumenta en
+                                <strong>2% del ATQ</strong> por cada turno
+                                que permanezcas con vida.
+                            </p>
+<p>
+                                Te curas por el <strong>10%</strong> del daño
+                                del veneno.
+                            </p>
+</div>
+<div class="scaling-block">
+<h3>Mítico</h3>
+<p>
+<strong>Base:</strong> Al comenzar la batalla,
+                                lanza una daga envenenada. El daño del veneno
+                                aumenta en <strong>3% del ATQ</strong> por cada
+                                turno que permanezcas con vida.
+                            </p>
+<p>
+                                Te curas por el <strong>15%</strong> del daño
+                                del veneno.
+                            </p>
+<p>
+<strong>Despertar 5:</strong> Al comenzar la
+                                batalla, lanza una daga envenenada. El daño
+                                del veneno aumenta en
+                                <strong>4.5% del ATQ</strong> por cada turno
+                                que permanezcas con vida.
+                            </p>
+<p>
+                                Te curas por el <strong>25%</strong> del daño
+                                del veneno.
+                            </p>
+</div>
+</div>
+</details>
+</article></div>
+ </section>
+</main>
+<script src="dex-menu.js"></script>
+  <script src="habilidades.js"></script>.
+</body>
+</html>

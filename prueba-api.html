@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba API Luvi</title>
+    <link rel="stylesheet" href="dex-logo-global.css">
+
+</head>
+
+<body>
+
+    <h1>Prueba de imágenes Luvi</h1>
+
+    <button id="probar">Probar Naruto y Erza</button>
+
+    <pre id="resultado">Esperando...</pre>
+
+    <script>
+        document.getElementById("probar").addEventListener("click", async function () {
+
+            const resultado = document.getElementById("resultado");
+
+            resultado.textContent = "Consultando Luvi...";
+
+            try {
+
+                const response = await fetch(
+                    "https://luvi-game.com/api/catalog-images/resolve",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            items: [
+                                {
+                                    kind: "card",
+                                    entity_id: "68244f35f2408085030f9a92",
+                                    rendition: "poster"
+                                },
+                                {
+                                    kind: "card",
+                                    entity_id: "6842a4e6ea639ae0213f43e1",
+                                    rendition: "poster"
+                                }
+                            ]
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                resultado.textContent =
+                    JSON.stringify(data, null, 2);
+
+            } catch (error) {
+
+                resultado.textContent =
+                    "ERROR:\n\n" + error;
+
+            }
+
+        });
+    </script>
+
+</body>
+</html>
