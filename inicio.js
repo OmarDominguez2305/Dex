@@ -13,28 +13,6 @@ function goTo(url){
 }
 
 
-
-/* ========================================
-   PERFIL
-======================================== */
-
-const profileButton =
-    document.getElementById("profileButton");
-
-
-profileButton?.addEventListener(
-    "click",
-    function(){
-
-        alert(
-            "El perfil estará disponible próximamente."
-        );
-
-    }
-);
-
-
-
 /* ========================================
    TARJETAS DEL MENÚ
 ======================================== */
@@ -57,7 +35,7 @@ menuCards.forEach(function(card){
 
                 case "cartas":
 
-                    goTo("Cartas/cartas.html");
+                    goTo("cartas/cartas.html");
 
                     break;
 
