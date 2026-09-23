@@ -26,9 +26,9 @@ function renderCards(){
  const start=(state.currentPage-1)*state.cardsPerPage;
  cardsGrid.innerHTML="";
  f.slice(start,start+state.cardsPerPage).forEach(c=>{
-  const k=key(c),sel=state.selected.some(x=>key(x)==k),el=document.createElement("article");
+  const sel=state.selected.some(x=>key(x)==key(c)),el=document.createElement("article");
   el.className="card-item"+(sel?" selected":"");
-  el.innerHTML=`<div class="card-image-wrap"><img class="card-image" src="${esc(c.image||c.artwork||"")}" alt="${esc(c.name)}" crossorigin="anonymous">${sel?'<div class="selected-badge">✓</div>':""}</div><div class="card-info"><div class="card-name">${esc(c.name||"Sin nombre")}</div><div class="card-meta">${c.element?`<span>${esc(c.element)}</span>`:""}${c.role?`<span>${esc(c.role)}</span>`:""}</div></div>`;
+  el.innerHTML=`<div class="card-image-wrap"><img class="card-image" src="${esc(c.image||"")}" alt="${esc(c.name)}">${sel?'<div class="selected-badge">✓</div>':""}</div><div class="card-info"><div class="card-name">${esc(c.name||"Sin nombre")}</div><div class="card-meta">${c.element?`<span>${esc(c.element)}</span>`:""}${c.role?`<span>${esc(c.role)}</span>`:""}</div></div>`;
   el.onclick=()=>toggle(c);
   cardsGrid.appendChild(el);
  });
@@ -59,7 +59,7 @@ function renderTeam(){
  state.selected.forEach((c,i)=>{
   const d=document.createElement("div");
   d.className="team-card";
-  d.innerHTML=`<div class="team-card-image"><img src="${esc(c.image||c.artwork||"")}" alt="${esc(c.name)}" crossorigin="anonymous"><button class="remove-team" type="button">×</button></div><div class="team-card-name">${esc(c.name||"Sin nombre")}</div>`;
+  d.innerHTML=`<div class="team-card-image"><img src="${esc(c.image||"")}" alt="${esc(c.name)}"><button class="remove-team" type="button">×</button></div><div class="team-card-name">${esc(c.name||"Sin nombre")}</div>`;
   d.querySelector(".remove-team").onclick=e=>{
    e.stopPropagation();state.selected.splice(i,1);renderCards();renderTeam();updateCommands();
   };
@@ -76,36 +76,39 @@ function updateCommands(){
 
 function exportTeam(){
  if(!state.selected.length)return alert("Selecciona al menos una carta.");
- if(typeof html2canvas=="undefined")return alert("No se pudo cargar el sistema para generar la imagen.");
+ if(typeof html2canvas=="undefined")return alert("Falta cargar html2canvas.");
 
  const o=document.createElement("div");
  o.id="dex-export-preview";
  Object.assign(o.style,{position:"fixed",inset:"0",zIndex:"999999",background:"#050505",overflow:"auto",padding:"18px",boxSizing:"border-box"});
 
- const html=state.selected.map(c=>`<div style="background:#0b0b0d;border:1px solid #35171c;border-radius:14px;overflow:hidden;box-shadow:0 8px 25px #000"><img src="${esc(c.image||c.artwork||"")}" crossorigin="anonymous" style="display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:#111"><div style="padding:11px 6px;text-align:center;color:#fff;font:600 14px Arial">${esc(c.name||"Sin nombre")}</div></div>`).join("");
+ const html=state.selected.map(c=>`<div style="background:#0b0b0d;border:1px solid #35171c;border-radius:14px;overflow:hidden;box-shadow:0 8px 25px #000"><img src="${esc(c.image||"")}" style="display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:#111"><div style="padding:11px 6px;text-align:center;color:#fff;font:600 14px Arial">${esc(c.name||"Sin nombre")}</div></div>`).join("");
 
- o.innerHTML=`<div id="dex-export-card" style="width:min(1250px,100%);margin:auto;padding:28px;box-sizing:border-box;background:radial-gradient(circle at top,#241014 0,#0b0809 35%,#050505 75%);border:1px solid #35171c;border-radius:18px;color:white;font-family:Arial"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px"><div style="display:flex;align-items:center;gap:12px"><img src="../assets/dex-logo.png" crossorigin="anonymous" style="width:55px;height:55px;object-fit:contain"><div><div style="font-size:12px;color:#a66a72;letter-spacing:3px">DEX</div><div style="font-size:25px;font-weight:700">Team Builder</div></div></div><div style="padding:8px 13px;border:1px solid #4b2026;border-radius:9px;color:#c98991">${state.selected.length}/5</div></div><div style="height:1px;background:#35171c;margin-bottom:24px"></div><div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px">${html}</div><div style="margin-top:25px;padding-top:15px;border-top:1px solid #35171c;display:flex;justify-content:space-between;color:#777;font-size:11px"><span>DEX • TEAM BUILDER</span><span>Team</span></div></div><div style="width:min(1250px,100%);margin:15px auto;display:flex;gap:10px"><button id="saveExport" style="flex:1;padding:13px;background:#35171c;border:1px solid #693039;border-radius:10px;color:white">💾 Guardar PNG</button><button id="closeExport" style="flex:1;padding:13px;background:#111;border:1px solid #333;border-radius:10px;color:white">Cerrar</button></div>`;
+ o.innerHTML=`<div id="dex-export-card" style="width:min(1250px,100%);margin:auto;padding:28px;box-sizing:border-box;background:radial-gradient(circle at top,#241014 0,#0b0809 35%,#050505 75%);border:1px solid #35171c;border-radius:18px;color:white;font-family:Arial"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px"><div style="display:flex;align-items:center;gap:12px"><img src="../assets/dex-logo.png" style="width:55px;height:55px;object-fit:contain"><div><div style="font-size:12px;color:#a66a72;letter-spacing:3px">DEX</div><div style="font-size:25px;font-weight:700">Team Builder</div></div></div><div style="padding:8px 13px;border:1px solid #4b2026;border-radius:9px;color:#c98991">${state.selected.length}/5</div></div><div style="height:1px;background:#35171c;margin-bottom:24px"></div><div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px">${html}</div><div style="margin-top:25px;padding-top:15px;border-top:1px solid #35171c;display:flex;justify-content:space-between;color:#777;font-size:11px"><span>DEX • TEAM BUILDER</span><span>Team</span></div></div><div style="width:min(1250px,100%);margin:15px auto;display:flex;gap:10px"><button id="saveExport" style="flex:1;padding:13px;background:#35171c;border:1px solid #693039;border-radius:10px;color:white">💾 Guardar PNG</button><button id="closeExport" style="flex:1;padding:13px;background:#111;border:1px solid #333;border-radius:10px;color:white">Cerrar</button></div>`;
 
  document.body.appendChild(o);
+
  $("closeExport").onclick=()=>o.remove();
 
  $("saveExport").onclick=async function(){
   const b=this;b.disabled=true;b.textContent="Generando PNG...";
   try{
    const box=$("dex-export-card");
-   await Promise.all([...box.querySelectorAll("img")].map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=r;i.onerror=r})));
+   await Promise.all([...box.querySelectorAll("img")].map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=r;i.onerror=r}));
    await new Promise(r=>setTimeout(r,300));
    const canvas=await html2canvas(box,{backgroundColor:"#050505",scale:2,useCORS:true,allowTaint:false,logging:false});
    const a=document.createElement("a");
    a.href=canvas.toDataURL("image/png");
    a.download="dex-team-"+Date.now()+".png";
+   document.body.appendChild(a);
    a.click();
+   a.remove();
    b.textContent="✓ PNG descargado";
    setTimeout(()=>{b.textContent="💾 Guardar PNG";b.disabled=false},1800);
   }catch(e){
    console.error(e);
    b.disabled=false;b.textContent="💾 Guardar PNG";
-   alert("No se pudo generar la imagen. Puede ser por el servidor de imágenes.");
+   alert("No se pudo generar la imagen.");
   }
  };
 }
