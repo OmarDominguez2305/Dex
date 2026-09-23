@@ -144,3 +144,29 @@ scrollTo({top:0,behavior:"smooth"});
 filters();
 render();
 renderTeam();
+
+const commandGrades=$("commandGrades"),commandRarity=$("commandRarity"),commandRaids=$("commandRaids");
+
+function updateCommands(){
+let n=selected.map(c=>c.name).filter(Boolean).join(", "),e=selected[0]?.element||"Fire";
+commandGrades.textContent="@luvi#1792 inv -n "+n+" -g b,a,s";
+commandRarity.textContent="@luvi#1792 inv -n "+n+" -r e,l";
+commandRaids.textContent="@luvi#1792 raids -n "+n+" -e "+e;
+}
+
+const oldRenderTeam=renderTeam;
+renderTeam=function(){
+oldRenderTeam();
+updateCommands();
+};
+
+document.querySelectorAll(".copy-button").forEach(b=>b.onclick=async()=>{
+let x=$(b.dataset.command).textContent.trim();
+try{
+await navigator.clipboard.writeText(x);
+let o=b.textContent;b.textContent="¡Copiado!";
+setTimeout(()=>b.textContent=o,1200);
+}catch(e){alert("No se pudo copiar. Copia el comando manualmente.")}
+});
+
+updateCommands();
