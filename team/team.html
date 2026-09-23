@@ -1,376 +1,277 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Dex - Team</title>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dex - Team</title>
 <link rel="stylesheet" href="team.css">
 <link rel="stylesheet" href="../dex-menu.css">
-
 </head>
 
 <body>
 
 <header class="top-bar">
 
-    <button id="backButton" class="back-button" type="button" aria-label="Volver a Inicio">
-        ←
-    </button>
+<button id="backButton" class="back-button" type="button" aria-label="Volver a Inicio">
+←
+</button>
 
-    <button id="dexMenuButton" class="logo-button" type="button" aria-label="Abrir menú de Dex">
-        <img src="../assets/dex-logo.png" alt="Dex">
-        <span class="logo-arrow">⌄</span>
-    </button>
+<button id="dexMenuButton" class="logo-button" type="button" aria-label="Abrir menú de Dex">
+<img src="../assets/dex-logo.png" alt="Dex">
+<span class="logo-arrow">⌄</span>
+</button>
 
 </header>
 
-    <main class="container">
+<main class="container">
 
-        <!-- HERO -->
+<section class="hero">
 
-        <section class="hero">
+<div class="hero-icon">👥</div>
 
-            <div class="hero-icon">
-                👥
-            </div>
+<div class="hero-content">
 
-            <div>
+<h1>Team Builder</h1>
 
-                <h1>
-                    Team Builder
-                </h1>
+<p>
+Busca cartas, filtra por elemento y rol,
+y construye tu equipo.
+</p>
 
-                <p>
-                    Busca cartas, filtra por elemento y rol,
-                    y construye tu equipo.
-                </p>
+</div>
 
-            </div>
+<div class="team-actions">
 
-        </section>
+<button id="printTeam" class="team-action-button" type="button">
+🖨️ Imprimir
+</button>
 
+<button id="downloadTeam" class="team-action-button" type="button">
+⬇️ Descargar
+</button>
 
-        <!-- EQUIPO -->
+</div>
 
-        <section class="team-section">
+</section>
 
-            <div class="section-heading">
 
-                <h2>
-                    👥 Tu equipo
-                </h2>
+<section class="team-section">
 
-                <span id="teamCount">
-                    0 / 5
-                </span>
+<div class="section-heading">
 
-            </div>
+<h2>👥 Tu equipo</h2>
 
+<span id="teamCount">0 / 5</span>
 
-            <div id="selectedTeam" class="selected-team">
+</div>
 
-                <div class="empty-team">
-                    Selecciona cartas para construir tu equipo.
-                </div>
+<div id="selectedTeam" class="selected-team">
 
-            </div>
+<div class="empty-team">
+Selecciona cartas para construir tu equipo.
+</div>
 
-        </section>
+</div>
 
+</section>
 
-        <!-- COMANDOS -->
 
-        <section class="commands-card">
+<section class="commands-card">
 
-            <div class="section-title">
+<div class="section-title">
+<span>📋</span>
+<h2>Comandos Discord</h2>
+</div>
 
-                <span>
-                    📋
-                </span>
+<p class="command-help">
+Estos comandos se generan con las cartas seleccionadas.
+Puedes copiarlos y usarlos manualmente en Discord.
+</p>
 
-                <h2>
-                    Comandos Discord
-                </h2>
 
-            </div>
+<div class="command-box">
 
+<div class="command-header">
+<span>Inventario — Grados</span>
 
-            <p class="command-help">
+<button class="copy-button" data-command="commandGrades">
+Copiar
+</button>
 
-                Estos comandos se generan con las cartas seleccionadas.
-                Puedes copiarlos y usarlos manualmente en Discord.
+</div>
 
-            </p>
+<code id="commandGrades">
+@luvi#1792 inv -n -g b,a,s
+</code>
 
+</div>
 
-            <div class="command-box">
 
-                <div class="command-header">
+<div class="command-box">
 
-                    <span>
-                        Inventario — Grados
-                    </span>
+<div class="command-header">
+<span>Inventario — Rareza</span>
 
-                    <button
-                        class="copy-button"
-                        data-command="commandGrades"
-                    >
-                        Copiar
-                    </button>
+<button class="copy-button" data-command="commandRarity">
+Copiar
+</button>
 
-                </div>
+</div>
 
-                <code id="commandGrades">
-                    @luvi#1792 inv -n -g b,a,s
-                </code>
+<code id="commandRarity">
+@luvi#1792 inv -n -r e,l
+</code>
 
-            </div>
+</div>
 
 
-            <div class="command-box">
+<div class="command-box">
 
-                <div class="command-header">
+<div class="command-header">
+<span>Raids — Elemento</span>
 
-                    <span>
-                        Inventario — Rareza
-                    </span>
+<button class="copy-button" data-command="commandRaids">
+Copiar
+</button>
 
-                    <button
-                        class="copy-button"
-                        data-command="commandRarity"
-                    >
-                        Copiar
-                    </button>
+</div>
 
-                </div>
+<code id="commandRaids">
+@luvi#1792 raids -n -e Fire
+</code>
 
-                <code id="commandRarity">
-                    @luvi#1792 inv -n -r e,l
-                </code>
+</div>
 
-            </div>
+</section>
 
 
-            <div class="command-box">
+<section class="info-card">
 
-                <div class="command-header">
+<div class="section-title">
+<span>ℹ️</span>
+<h2>Información</h2>
+</div>
 
-                    <span>
-                        Raids — Elemento
-                    </span>
+<p>
+Selecciona hasta 5 cartas para construir tu equipo.
+Puedes combinar búsqueda y filtros de elemento,
+rol e Iconic.
+</p>
 
-                    <button
-                        class="copy-button"
-                        data-command="commandRaids"
-                    >
-                        Copiar
-                    </button>
+<div class="ability-tags">
 
-                </div>
+<span>Element</span>
+<span>Role</span>
+<span>Iconic</span>
+<span>Search</span>
 
-                <code id="commandRaids">
-                    @luvi#1792 raids -n -e Fire
-                </code>
+</div>
 
-            </div>
+</section>
 
-        </section>
 
+<section class="filter-card">
 
-        <!-- INFORMACIÓN -->
+<div class="section-title">
+<span>🔎</span>
+<h2>Filtros</h2>
+</div>
 
-        <section class="info-card">
+<div class="filter-grid">
 
-            <div class="section-title">
+<label>
+Buscar carta
 
-                <span>
-                    ℹ️
-                </span>
+<input
+type="text"
+id="searchInput"
+placeholder="Nombre de carta..."
+>
+</label>
 
-                <h2>
-                    Información
-                </h2>
 
-            </div>
+<label>
+Elemento
 
-            <p>
-                Selecciona hasta 5 cartas para construir tu equipo.
-                Puedes combinar búsqueda y filtros de elemento,
-                rol e Iconic.
-            </p>
+<select id="elementFilter">
 
-            <div class="ability-tags">
+<option value="all">Todos</option>
 
-                <span>
-                    Element
-                </span>
+</select>
 
-                <span>
-                    Role
-                </span>
+</label>
 
-                <span>
-                    Iconic
-                </span>
 
-                <span>
-                    Search
-                </span>
+<label>
+Rol
 
-            </div>
+<select id="roleFilter">
 
-        </section>
+<option value="all">Todos</option>
 
+</select>
 
-        <!-- FILTROS -->
+</label>
 
-        <section class="filter-card">
 
-            <div class="section-title">
+<label>
+Iconic
 
-                <span>
-                    🔎
-                </span>
+<select id="iconicFilter">
 
-                <h2>
-                    Filtros
-                </h2>
+<option value="all">Todos</option>
+<option value="true">Sí</option>
+<option value="false">No</option>
 
-            </div>
+</select>
 
+</label>
 
-            <div class="filter-grid">
+</div>
 
-                <label>
+</section>
 
-                    Buscar carta
 
-                    <input
-                        type="text"
-                        id="searchInput"
-                        placeholder="Nombre de carta..."
-                    >
+<div id="statusMessage" class="status">
+Cargando cartas...
+</div>
 
-                </label>
 
+<section>
 
-                <label>
+<div class="section-heading">
 
-                    Elemento
+<h2>🃏 Cartas</h2>
 
-                    <select id="elementFilter">
+<span id="cardCount">0 cartas</span>
 
-                        <option value="all">
-                            Todos
-                        </option>
+</div>
 
-                    </select>
 
-                </label>
+<div id="cardsGrid" class="cards-grid"></div>
 
 
-                <label>
+<div class="pagination">
 
-                    Rol
+<button id="previousPage" class="page-button">
+← Anterior
+</button>
 
-                    <select id="roleFilter">
+<span id="pageNumber">
+Página 1
+</span>
 
-                        <option value="all">
-                            Todos
-                        </option>
+<button id="nextPage" class="page-button">
+Siguiente →
+</button>
 
-                    </select>
+</div>
 
-                </label>
+</section>
 
+</main>
 
-                <label>
-
-                    Iconic
-
-                    <select id="iconicFilter">
-
-                        <option value="all">
-                            Todos
-                        </option>
-
-                        <option value="true">
-                            Sí
-                        </option>
-
-                        <option value="false">
-                            No
-                        </option>
-
-                    </select>
-
-                </label>
-
-            </div>
-
-        </section>
-
-
-        <!-- ESTADO -->
-
-        <div id="statusMessage" class="status">
-            Cargando cartas...
-        </div>
-
-
-        <!-- CARTAS -->
-
-        <section>
-
-            <div class="section-heading">
-
-                <h2>
-                    🃏 Cartas
-                </h2>
-
-                <span id="cardCount">
-                    0 cartas
-                </span>
-
-            </div>
-
-
-            <div id="cardsGrid" class="cards-grid"></div>
-
-
-            <!-- PAGINACIÓN -->
-
-            <div class="pagination">
-
-                <button
-                    id="previousPage"
-                    class="page-button"
-                >
-                    ← Anterior
-                </button>
-
-
-                <span id="pageNumber">
-                    Página 1
-                </span>
-
-
-                <button
-                    id="nextPage"
-                    class="page-button"
-                >
-                    Siguiente →
-                </button>
-
-            </div>
-
-        </section>
-
-    </main>
-
-    <script src="cards.js"></script>
+<script src="cards.js"></script>
 <script src="team.js"></script>
 <script src="../dex-menu.js"></script>
 
