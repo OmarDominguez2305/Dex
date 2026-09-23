@@ -1074,3 +1074,70 @@ select{
     }
 
 }
+
+/* BOTONES DE EXPORTACIÓN */
+
+.hero{
+    position:relative;
+}
+
+.hero-content{
+    flex:1;
+    min-width:0;
+}
+
+.team-actions{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-left:auto;
+}
+
+.team-action-button{
+    min-height:38px;
+    padding:8px 12px;
+    border:1px solid var(--border-strong);
+    border-radius:9px;
+    background:var(--surface-2);
+    color:#ddd;
+    font-size:12px;
+    font-weight:600;
+    font-family:inherit;
+    cursor:pointer;
+    transition:
+        background .18s ease,
+        border-color .18s ease,
+        transform .18s ease;
+}
+
+.team-action-button:hover{
+    background:var(--surface-hover);
+    border-color:var(--red);
+    transform:translateY(-1px);
+}
+
+.team-action-button:active{
+    transform:translateY(0);
+}
+
+@media(max-width:700px){
+
+    .hero{
+        flex-wrap:wrap;
+    }
+
+    .hero-content{
+        flex:1;
+    }
+
+    .team-actions{
+        width:100%;
+        margin-left:0;
+        margin-top:4px;
+    }
+
+    .team-action-button{
+        flex:1;
+    }
+
+}
