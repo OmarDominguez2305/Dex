@@ -6,10 +6,10 @@ const $ = id => document.getElementById(id);
 ===================================== */
 
 const back = $("backButton");
-
 const search = $("searchInput");
 const element = $("elementFilter");
 const role = $("roleFilter");
+const series = $("seriesFilter");
 const iconic = $("iconicFilter");
 const favoriteFilter = $("favoriteFilter");
 
@@ -27,20 +27,16 @@ const page = $("pageNumber");
 ===================================== */
 
 const perPage = 20;
-
 let currentPage = 1;
 
 const FAVORITES_KEY = "dex-favorite-cards";
 
 let favorites = new Set(
-    JSON.parse(
-        localStorage.getItem(FAVORITES_KEY) || "[]"
-    )
+    JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]")
 );
 
 let allCards =
-    typeof cards !== "undefined" &&
-    Array.isArray(cards)
+    typeof cards !== "undefined" && Array.isArray(cards)
         ? cards
         : [];
 
@@ -52,141 +48,37 @@ let allCards =
 const abilities = {
 
     Frontline: [
-
-        [
-            "🛡️",
-            "Opening Guard",
-            "Reduce el daño recibido durante los primeros turnos."
-        ],
-
-        [
-            "❤️",
-            "Last Stand",
-            "Al llegar a 0 PS, recupera vida y reduce el siguiente daño."
-        ],
-
-        [
-            "⚔️",
-            "Provoke",
-            "Provoca a todos los enemigos durante 2 turnos."
-        ],
-
-        [
-            "🪽",
-            "Guardian Angel",
-            "Recibe un golpe letal destinado a un aliado."
-        ]
-
+        ["🛡️","Opening Guard","Reduce el daño recibido durante los primeros turnos."],
+        ["❤️","Last Stand","Al llegar a 0 PS, recupera vida y reduce el siguiente daño."],
+        ["⚔️","Provoke","Provoca a todos los enemigos durante 2 turnos."],
+        ["🪽","Guardian Angel","Recibe un golpe letal destinado a un aliado."]
     ],
-
 
     Support: [
-
-        [
-            "💚",
-            "Mending Light",
-            "Restaura los PS del equipo periódicamente."
-        ],
-
-        [
-            "📯",
-            "War Chant",
-            "Aumenta el ATQ de todos los aliados."
-        ],
-
-        [
-            "✨",
-            "Remembrance",
-            "Cuando muere un aliado, cura a los demás."
-        ]
-
+        ["💚","Mending Light","Restaura los PS del equipo periódicamente."],
+        ["📯","War Chant","Aumenta el ATQ de todos los aliados."],
+        ["✨","Remembrance","Cuando muere un aliado, cura a los demás."]
     ],
-
 
     Mastermind: [
-
-        [
-            "♟️",
-            "Checkmate",
-            "Inflige más daño contra enemigos con poca vida."
-        ],
-
-        [
-            "🧠",
-            "Mind Games",
-            "Puede confundir al enemigo y reducir su daño."
-        ],
-
-        [
-            "🔇",
-            "Blackmail",
-            "Puede silenciar al enemigo cuando intenta usar una habilidad."
-        ],
-
-        [
-            "♟️",
-            "Pieces in Play",
-            "Mientras estés vivo, aumenta el daño de los aliados."
-        ]
-
+        ["♟️","Checkmate","Inflige más daño contra enemigos con poca vida."],
+        ["🧠","Mind Games","Puede confundir al enemigo y reducir su daño."],
+        ["🔇","Blackmail","Puede silenciar al enemigo cuando intenta usar una habilidad."],
+        ["♟️","Pieces in Play","Mientras estés vivo, aumenta el daño de los aliados."]
     ],
-
 
     Duelist: [
-
-        [
-            "⚔️",
-            "Riposte",
-            "Puede contraatacar inmediatamente al recibir un ataque."
-        ],
-
-        [
-            "🩸",
-            "Bloodlust",
-            "Cada tercer golpe recupera PS según el daño causado."
-        ],
-
-        [
-            "☠️",
-            "Mortal Wound",
-            "Reduce la curación recibida por el objetivo."
-        ],
-
-        [
-            "🎯",
-            "True Strike",
-            "Los ataques no pueden ser esquivados."
-        ]
-
+        ["⚔️","Riposte","Puede contraatacar inmediatamente al recibir un ataque."],
+        ["🩸","Bloodlust","Cada tercer golpe recupera PS según el daño causado."],
+        ["☠️","Mortal Wound","Reduce la curación recibida por el objetivo."],
+        ["🎯","True Strike","Los ataques no pueden ser esquivados."]
     ],
 
-
     Phantom: [
-
-        [
-            "🌑",
-            "Shadowstep",
-            "Probabilidad de esquivar completamente los ataques."
-        ],
-
-        [
-            "💥",
-            "Phantom Rebound",
-            "Con poca vida puede anular daño y aumentar el ATQ."
-        ],
-
-        [
-            "🥷",
-            "From the Shadows",
-            "Permite realizar una emboscada con daño aumentado."
-        ],
-
-        [
-            "☠️",
-            "Lingering Venom",
-            "Aplica veneno y aumenta progresivamente el ATQ."
-        ]
-
+        ["🌑","Shadowstep","Probabilidad de esquivar completamente los ataques."],
+        ["💥","Phantom Rebound","Con poca vida puede anular daño y aumentar el ATQ."],
+        ["🥷","From the Shadows","Permite realizar una emboscada con daño aumentado."],
+        ["☠️","Lingering Venom","Aplica veneno y aumenta progresivamente el ATQ."]
     ]
 
 };
@@ -199,13 +91,9 @@ const abilities = {
 back.onclick = function(){
 
     if(typeof dexNavigate === "function"){
-
         dexNavigate("../inicio.html");
-
     }else{
-
         window.location.href = "../inicio.html";
-
     }
 
 };
@@ -223,6 +111,9 @@ const elementOf = card =>
 
 const roleOf = card =>
     String(card.role || "");
+
+const seriesOf = card =>
+    String(card.series || "");
 
 const isIconic = card =>
     card.iconic === true ||
@@ -246,11 +137,7 @@ function cardId(card){
 
 
 function isFavorite(card){
-
-    return favorites.has(
-        cardId(card)
-    );
-
+    return favorites.has(cardId(card));
 }
 
 
@@ -258,9 +145,7 @@ function saveFavorites(){
 
     localStorage.setItem(
         FAVORITES_KEY,
-        JSON.stringify(
-            [...favorites]
-        )
+        JSON.stringify([...favorites])
     );
 
 }
@@ -271,17 +156,12 @@ function toggleFavorite(card){
     const id = cardId(card);
 
     if(favorites.has(id)){
-
         favorites.delete(id);
-
     }else{
-
         favorites.add(id);
-
     }
 
     saveFavorites();
-
     render();
 
 }
@@ -295,6 +175,7 @@ function loadFilters(){
 
     const elements = new Set();
     const roles = new Set();
+    const seriesList = new Set();
 
     allCards.forEach(function(card){
 
@@ -306,26 +187,31 @@ function loadFilters(){
             roles.add(roleOf(card));
         }
 
+        if(seriesOf(card)){
+            seriesList.add(seriesOf(card));
+        }
+
     });
+
 
     [...elements]
         .sort()
         .forEach(function(value){
-
-            element.add(
-                new Option(value,value)
-            );
-
+            element.add(new Option(value,value));
         });
+
 
     [...roles]
         .sort()
         .forEach(function(value){
+            role.add(new Option(value,value));
+        });
 
-            role.add(
-                new Option(value,value)
-            );
 
+    [...seriesList]
+        .sort()
+        .forEach(function(value){
+            series.add(new Option(value,value));
         });
 
 }
@@ -346,9 +232,7 @@ function filtered(){
                 .toLowerCase()
                 .includes(text)
         ){
-
             return false;
-
         }
 
 
@@ -356,9 +240,7 @@ function filtered(){
             element.value !== "all" &&
             elementOf(card) !== element.value
         ){
-
             return false;
-
         }
 
 
@@ -366,9 +248,15 @@ function filtered(){
             role.value !== "all" &&
             roleOf(card) !== role.value
         ){
-
             return false;
+        }
 
+
+        if(
+            series.value !== "all" &&
+            seriesOf(card) !== series.value
+        ){
+            return false;
         }
 
 
@@ -376,9 +264,7 @@ function filtered(){
             iconic.value !== "all" &&
             String(isIconic(card)) !== iconic.value
         ){
-
             return false;
-
         }
 
 
@@ -386,9 +272,7 @@ function filtered(){
             favoriteFilter.value === "favorites" &&
             !isFavorite(card)
         ){
-
             return false;
-
         }
 
 
@@ -405,8 +289,7 @@ function filtered(){
 
 function imageBox(card,preview=false){
 
-    const box =
-        document.createElement("div");
+    const box = document.createElement("div");
 
     box.className =
         preview
@@ -416,31 +299,23 @@ function imageBox(card,preview=false){
     if(!card.image){
 
         box.innerHTML =
-            '<span class="image-placeholder">' +
-            'Imagen no disponible' +
-            '</span>';
+            '<span class="image-placeholder">Imagen no disponible</span>';
 
         return box;
 
     }
 
-    const img =
-        document.createElement("img");
+
+    const img = document.createElement("img");
 
     img.src = card.image;
-
-    img.alt =
-        nameOf(card) ||
-        "Carta";
-
+    img.alt = nameOf(card) || "Carta";
     img.loading = "lazy";
 
     img.onerror = function(){
 
         box.innerHTML =
-            '<span class="image-placeholder">' +
-            'Imagen no disponible' +
-            '</span>';
+            '<span class="image-placeholder">Imagen no disponible</span>';
 
     };
 
@@ -457,65 +332,43 @@ function imageBox(card,preview=false){
 
 function createCard(card){
 
-    const article =
-        document.createElement("article");
+    const article = document.createElement("article");
 
     article.className =
         "card" +
-        (
-            isIconic(card)
-                ? " iconic"
-                : ""
-        );
+        (isIconic(card) ? " iconic" : "");
 
 
     /* IMAGEN */
 
-    const image =
-        imageBox(card);
-
-    article.appendChild(image);
+    article.appendChild(imageBox(card));
 
 
     /* CONTENIDO */
 
-    const content =
-        document.createElement("div");
-
-    content.className =
-        "card-content";
+    const content = document.createElement("div");
+    content.className = "card-content";
 
 
-    const name =
-        document.createElement("div");
-
-    name.className =
-        "card-name";
-
-    name.textContent =
-        nameOf(card);
+    const name = document.createElement("div");
+    name.className = "card-name";
+    name.textContent = nameOf(card);
 
 
-    const tags =
-        document.createElement("div");
-
-    tags.className =
-        "card-tags";
+    const tags = document.createElement("div");
+    tags.className = "card-tags";
 
 
     [
         elementOf(card),
-        roleOf(card)
+        roleOf(card),
+        seriesOf(card)
     ].forEach(function(value){
 
-        const tag =
-            document.createElement("span");
+        const tag = document.createElement("span");
 
-        tag.className =
-            "card-tag";
-
-        tag.textContent =
-            value || "—";
+        tag.className = "card-tag";
+        tag.textContent = value || "—";
 
         tags.appendChild(tag);
 
@@ -524,14 +377,10 @@ function createCard(card){
 
     if(isIconic(card)){
 
-        const tag =
-            document.createElement("span");
+        const tag = document.createElement("span");
 
-        tag.className =
-            "card-tag iconic-tag";
-
-        tag.textContent =
-            "Iconic";
+        tag.className = "card-tag iconic-tag";
+        tag.textContent = "Iconic";
 
         tags.appendChild(tag);
 
@@ -540,7 +389,6 @@ function createCard(card){
 
     content.appendChild(name);
     content.appendChild(tags);
-
     article.appendChild(content);
 
 
@@ -548,14 +396,10 @@ function createCard(card){
        BOTÓN FAVORITO
     ================================= */
 
-    const favoriteButton =
-        document.createElement("button");
+    const favoriteButton = document.createElement("button");
 
-    favoriteButton.className =
-        "favorite-button";
-
-    favoriteButton.type =
-        "button";
+    favoriteButton.className = "favorite-button";
+    favoriteButton.type = "button";
 
     favoriteButton.textContent =
         isFavorite(card)
@@ -575,19 +419,15 @@ function createCard(card){
     );
 
 
-    favoriteButton.onclick =
-        function(event){
+    favoriteButton.onclick = function(event){
 
-            event.stopPropagation();
+        event.stopPropagation();
+        toggleFavorite(card);
 
-            toggleFavorite(card);
-
-        };
+    };
 
 
-    article.appendChild(
-        favoriteButton
-    );
+    article.appendChild(favoriteButton);
 
 
     /* =================================
@@ -595,9 +435,7 @@ function createCard(card){
     ================================= */
 
     article.onclick = function(){
-
         openPreview(card);
-
     };
 
 
@@ -616,14 +454,12 @@ function createPreview(){
         return;
     }
 
-    const modal =
-        document.createElement("div");
 
-    modal.id =
-        "cardPreview";
+    const modal = document.createElement("div");
 
-    modal.className =
-        "card-preview";
+    modal.id = "cardPreview";
+    modal.className = "card-preview";
+
 
     modal.innerHTML = `
 
@@ -631,12 +467,7 @@ function createPreview(){
 
         <div class="preview-window">
 
-            <button
-                class="preview-close"
-                id="previewClose"
-                type="button"
-                aria-label="Cerrar"
-            >
+            <button class="preview-close" id="previewClose" type="button" aria-label="Cerrar">
                 ×
             </button>
 
@@ -644,10 +475,7 @@ function createPreview(){
 
             <div class="preview-content">
 
-                <span
-                    id="previewIconic"
-                    class="preview-badge"
-                >
+                <span id="previewIconic" class="preview-badge">
                     Iconic
                 </span>
 
@@ -656,30 +484,23 @@ function createPreview(){
                 <div class="preview-info">
 
                     <div>
-
-                        <small>
-                            Elemento
-                        </small>
-
+                        <small>Elemento</small>
                         <strong id="previewElement"></strong>
-
                     </div>
 
                     <div>
-
-                        <small>
-                            Rol
-                        </small>
-
+                        <small>Rol</small>
                         <strong id="previewRole"></strong>
+                    </div>
 
+                    <div>
+                        <small>Serie</small>
+                        <strong id="previewSeries"></strong>
                     </div>
 
                 </div>
 
-                <h3>
-                    ✨ Habilidades
-                </h3>
+                <h3>✨ Habilidades</h3>
 
                 <p class="abilities-subtitle">
                     Habilidades que puede conseguir por su Role.
@@ -693,15 +514,14 @@ function createPreview(){
 
     `;
 
+
     document.body.appendChild(modal);
 
-    $("previewClose").onclick =
-        closePreview;
+    $("previewClose").onclick = closePreview;
 
     modal
         .querySelector(".preview-overlay")
-        .onclick =
-        closePreview;
+        .onclick = closePreview;
 
 }
 
@@ -726,35 +546,27 @@ function openPreview(card){
     createPreview();
 
 
-    const modal =
-        $("cardPreview");
+    const modal = $("cardPreview");
+    const oldImage = $("previewImage");
 
+    const newImage = imageBox(card,true);
 
-    const oldImage =
-        $("previewImage");
+    newImage.id = "previewImage";
 
-
-    const newImage =
-        imageBox(card,true);
-
-    newImage.id =
-        "previewImage";
-
-    oldImage.replaceWith(
-        newImage
-    );
+    oldImage.replaceWith(newImage);
 
 
     $("previewName").textContent =
         nameOf(card);
 
-
     $("previewElement").textContent =
         elementOf(card) || "—";
 
-
     $("previewRole").textContent =
         roleOf(card) || "—";
+
+    $("previewSeries").textContent =
+        seriesOf(card) || "—";
 
 
     $("previewIconic").style.display =
@@ -769,8 +581,7 @@ function openPreview(card){
     );
 
 
-    const list =
-        $("abilitiesList");
+    const list = $("abilitiesList");
 
     list.innerHTML = "";
 
@@ -780,68 +591,42 @@ function openPreview(card){
         []
     ).forEach(function(ability){
 
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "preview-ability";
+        const item = document.createElement("div");
+        item.className = "preview-ability";
 
 
-        const icon =
-            document.createElement("span");
+        const icon = document.createElement("span");
 
-        icon.className =
-            "preview-ability-icon";
-
-        icon.textContent =
-            ability[0];
+        icon.className = "preview-ability-icon";
+        icon.textContent = ability[0];
 
 
-        const content =
-            document.createElement("div");
+        const content = document.createElement("div");
 
 
-        const title =
-            document.createElement("strong");
+        const title = document.createElement("strong");
 
-        title.textContent =
-            ability[1];
+        title.textContent = ability[1];
 
 
-        const description =
-            document.createElement("p");
+        const description = document.createElement("p");
 
-        description.textContent =
-            ability[2];
+        description.textContent = ability[2];
 
 
         content.appendChild(title);
-
-        content.appendChild(
-            description
-        );
-
+        content.appendChild(description);
 
         item.appendChild(icon);
-
-        item.appendChild(
-            content
-        );
-
+        item.appendChild(content);
 
         list.appendChild(item);
 
     });
 
 
-    modal.classList.add(
-        "active"
-    );
-
-
-    document.body.classList.add(
-        "preview-open"
-    );
+    modal.classList.add("active");
+    document.body.classList.add("preview-open");
 
 }
 
@@ -852,36 +637,25 @@ function openPreview(card){
 
 function closePreview(){
 
-    const modal =
-        $("cardPreview");
+    const modal = $("cardPreview");
 
     if(!modal){
         return;
     }
 
-    modal.classList.remove(
-        "active"
-    );
-
-    document.body.classList.remove(
-        "preview-open"
-    );
+    modal.classList.remove("active");
+    document.body.classList.remove("preview-open");
 
 }
 
 
-document.addEventListener(
-    "keydown",
-    function(event){
+document.addEventListener("keydown",function(event){
 
-        if(event.key === "Escape"){
-
-            closePreview();
-
-        }
-
+    if(event.key === "Escape"){
+        closePreview();
     }
-);
+
+});
 
 
 /* =====================================
@@ -890,30 +664,23 @@ document.addEventListener(
 
 function render(){
 
-    const list =
-        filtered();
+    const list = filtered();
 
 
     const totalPages =
         Math.max(
             1,
-            Math.ceil(
-                list.length / perPage
-            )
+            Math.ceil(list.length / perPage)
         );
 
 
     if(currentPage > totalPages){
-
-        currentPage =
-            totalPages;
-
+        currentPage = totalPages;
     }
 
 
     const start =
-        (currentPage - 1) *
-        perPage;
+        (currentPage - 1) * perPage;
 
 
     const pageCards =
@@ -927,11 +694,7 @@ function render(){
 
 
     pageCards.forEach(function(card){
-
-        grid.appendChild(
-            createCard(card)
-        );
-
+        grid.appendChild(createCard(card));
     });
 
 
@@ -947,12 +710,8 @@ function render(){
         `Página ${currentPage} / ${totalPages}`;
 
 
-    prev.disabled =
-        currentPage <= 1;
-
-
-    next.disabled =
-        currentPage >= totalPages;
+    prev.disabled = currentPage <= 1;
+    next.disabled = currentPage >= totalPages;
 
 
     status.textContent =
@@ -962,8 +721,7 @@ function render(){
     if(!list.length){
 
         grid.innerHTML =
-            '<div class="image-placeholder" ' +
-            'style="grid-column:1/-1;padding:30px;">' +
+            '<div class="image-placeholder" style="grid-column:1/-1;padding:30px;">' +
             'No se encontraron cartas.' +
             '</div>';
 
@@ -980,33 +738,26 @@ function render(){
     search,
     element,
     role,
+    series,
     iconic,
     favoriteFilter
 ]
 .forEach(function(input){
 
-    input.addEventListener(
-        "input",
-        function(){
+    input.addEventListener("input",function(){
 
-            currentPage = 1;
+        currentPage = 1;
+        render();
 
-            render();
-
-        }
-    );
+    });
 
 
-    input.addEventListener(
-        "change",
-        function(){
+    input.addEventListener("change",function(){
 
-            currentPage = 1;
+        currentPage = 1;
+        render();
 
-            render();
-
-        }
-    );
+    });
 
 });
 
@@ -1022,7 +773,6 @@ prev.onclick = function(){
     }
 
     currentPage--;
-
     render();
 
     window.scrollTo({
@@ -1049,11 +799,8 @@ next.onclick = function(){
         return;
     }
 
-
     currentPage++;
-
     render();
-
 
     window.scrollTo({
         top:0,
@@ -1072,14 +819,11 @@ if(!allCards.length){
     status.textContent =
         "No se encontró el catálogo de cartas.";
 
-    status.classList.add(
-        "error"
-    );
+    status.classList.add("error");
 
 }else{
 
     loadFilters();
-
     render();
 
 }
