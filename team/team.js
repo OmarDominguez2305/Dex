@@ -95,7 +95,6 @@ function img(c,cls){
     i.src=c.image;
     i.alt=c.name||"Carta";
     i.loading="lazy";
-    i.crossOrigin="anonymous";
     i.onerror=()=>d.innerHTML='<span class="image-placeholder">Imagen no disponible</span>';
 
     d.appendChild(i);
@@ -521,3 +520,4 @@ if(!cardsData.length){
     render();
     renderTeam();
 }
+
