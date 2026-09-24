@@ -1,523 +1,280 @@
+const state={cards:cards,selected:[],currentPage:1,cardsPerPage:20};
 const $=id=>document.getElementById(id);
-const cardsData=typeof cards!=="undefined"&&Array.isArray(cards)?cards:[];
-let selected=[],currentPage=1;
-const perPage=20;
-const FAVORITES_KEY="dex-favorite-cards";
-
-const back=$("backButton");
-const search=$("searchInput"),element=$("elementFilter"),role=$("roleFilter"),series=$("seriesFilter"),iconic=$("iconicFilter");
-const grid=$("cardsGrid"),count=$("cardCount"),status=$("statusMessage");
-const team=$("selectedTeam"),teamCount=$("teamCount"),prev=$("previousPage"),next=$("nextPage"),page=$("pageNumber");
-const printButton=$("printTeam"),downloadButton=$("downloadTeam");
+const cardsGrid=$("cardsGrid"),cardCount=$("cardCount"),selectedTeam=$("selectedTeam"),teamCount=$("teamCount"),statusMessage=$("statusMessage");
+const searchInput=$("searchInput"),elementFilter=$("elementFilter"),roleFilter=$("roleFilter"),iconicFilter=$("iconicFilter");
+const previousPage=$("previousPage"),nextPage=$("nextPage"),pageNumber=$("pageNumber");
 const commandGrades=$("commandGrades"),commandRarity=$("commandRarity"),commandRaids=$("commandRaids");
 
-let favorites=new Set();
-try{
-    favorites=new Set(JSON.parse(localStorage.getItem(FAVORITES_KEY)||"[]"));
-}catch(e){}
+$("backButton").onclick=()=>typeof dexNavigate=="function"?dexNavigate("../inicio.html"):location.href="../inicio.html";
 
-
-/* =========================
-   VOLVER
-========================= */
-
-if(back){
-    back.onclick=()=>{
-        if(typeof dexNavigate==="function") dexNavigate("../inicio.html");
-        else window.location.href="../inicio.html";
-    };
+function loadFilters(){
+let e=[],r=[];
+state.cards.forEach(c=>{
+if(c.element&&!e.includes(c.element))e.push(c.element);
+if(c.role&&!r.includes(c.role))r.push(c.role);
+});
+e.sort();r.sort();
+e.forEach(x=>elementFilter.append(new Option(x,x)));
+r.forEach(x=>roleFilter.append(new Option(x,x)));
 }
 
-
-/* =========================
-   FAVORITOS
-========================= */
-
-function cardId(c){
-    return String(c.luviId||c.id||c.name||"");
+function getFilteredCards(){
+let s=searchInput.value.trim().toLowerCase(),e=elementFilter.value,r=roleFilter.value,i=iconicFilter.value;
+return state.cards.filter(c=>
+(!s||String(c.name||"").toLowerCase().includes(s))&&
+(e=="all"||c.element==e)&&
+(r=="all"||c.role==r)&&
+(i=="all"||String(!!c.iconic)==i)
+);
 }
 
-function isFavorite(c){
-    return favorites.has(cardId(c));
+function renderCards(){
+statusMessage.style.display="none";
+let f=getFilteredCards(),pages=Math.max(1,Math.ceil(f.length/state.cardsPerPage));
+if(state.currentPage>pages)state.currentPage=pages;
+let start=(state.currentPage-1)*state.cardsPerPage;
+cardsGrid.innerHTML="";
+cardCount.textContent=f.length+(f.length==1?" carta":" cartas");
+pageNumber.textContent=Página ${state.currentPage} de ${pages};
+previousPage.disabled=state.currentPage<=1;
+nextPage.disabled=state.currentPage>=pages;
+f.slice(start,start+state.cardsPerPage).forEach(c=>cardsGrid.append(createCard(c)));
+if(!f.length)cardsGrid.innerHTML='<div class="empty-team">No se encontraron cartas.</div>';
 }
 
-
-/* =========================
-   FILTROS
-========================= */
-
-function filters(){
-    [...new Set(cardsData.map(c=>c.element).filter(Boolean))]
-        .sort()
-        .forEach(x=>element.add(new Option(x,x)));
-
-    [...new Set(cardsData.map(c=>c.role).filter(Boolean))]
-        .sort()
-        .forEach(x=>role.add(new Option(x,x)));
-
-    [...new Set(cardsData.map(c=>c.series).filter(Boolean))]
-        .sort()
-        .forEach(x=>series.add(new Option(x,x)));
+function createCard(c){
+let a=document.createElement("article");a.className="card";
+let selected=state.selected.some(x=>getCardKey(x)==getCardKey(c));
+if(selected)a.classList.add("selected");
+let im=document.createElement("div");im.className="card-image";
+if(c.image){let x=document.createElement("img");x.src=c.image;x.alt=c.name||"Carta";x.loading="lazy";im.append(x)}
+else im.innerHTML='<div class="image-placeholder">Sin imagen</div>';
+let co=document.createElement("div");co.className="card-content";
+let n=document.createElement("div");n.className="card-name";n.textContent=c.name||"Sin nombre";
+let t=document.createElement("div");t.className="card-tags";
+if(c.element)t.append(createTag(c.element));
+if(c.role)t.append(createTag(c.role));
+if(c.iconic){let x=createTag("Iconic");x.classList.add("iconic-tag");t.append(x)}
+co.append(n,t);a.append(im,co);
+if(selected){let m=document.createElement("div");m.className="selected-mark";m.textContent="✓";a.append(m)}
+a.onclick=()=>toggleCard(c);
+return a;
 }
 
-
-/* =========================
-   FILTRADO
-========================= */
-
-function filtered(){
-    const s=search.value.toLowerCase().trim();
-
-    return cardsData.filter(c=>
-        (!s||String(c.name||"").toLowerCase().includes(s))&&
-        (element.value==="all"||c.element===element.value)&&
-        (role.value==="all"||c.role===role.value)&&
-        (series.value==="all"||c.series===series.value)&&
-        (iconic.value==="all"||String(c.iconic===true||c.is_iconic===true)===iconic.value)
-    );
+function createTag(x){
+let t=document.createElement("span");t.className="card-tag";t.textContent=x;return t;
 }
 
-
-/* =========================
-   IMAGEN
-========================= */
-
-function img(c,cls){
-    const d=document.createElement("div");
-    d.className=cls;
-
-    if(!c.image){
-        d.innerHTML='<span class="image-placeholder">Imagen no disponible</span>';
-        return d;
-    }
-
-    const i=document.createElement("img");
-    i.src=c.image;
-    i.alt=c.name||"Carta";
-    i.loading="lazy";
-    i.onerror=()=>d.innerHTML='<span class="image-placeholder">Imagen no disponible</span>';
-
-    d.appendChild(i);
-    return d;
+function toggleCard(c){
+let k=getCardKey(c),i=state.selected.findIndex(x=>getCardKey(x)==k);
+if(i>-1)state.selected.splice(i,1);
+else{
+if(state.selected.length>=5)return alert("El equipo puede tener hasta 5 cartas.");
+state.selected.push(c);
 }
-
-
-/* =========================
-   CARTAS
-========================= */
-
-function render(){
-    const list=filtered();
-    const pages=Math.max(1,Math.ceil(list.length/perPage));
-
-    if(currentPage>pages) currentPage=pages;
-
-    grid.innerHTML="";
-
-    list.slice((currentPage-1)*perPage,currentPage*perPage).forEach(c=>{
-        const a=document.createElement("article");
-        a.className="card"+(selected.includes(c)?" selected":"");
-        a.appendChild(img(c,"card-image"));
-
-        const content=document.createElement("div");
-        content.className="card-content";
-
-        const n=document.createElement("div");
-        n.className="card-name";
-        n.textContent=c.name||"Sin nombre";
-
-        const tags=document.createElement("div");
-        tags.className="card-tags";
-
-        [c.element,c.role,c.series].filter(Boolean).forEach(x=>{
-            const t=document.createElement("span");
-            t.className="card-tag";
-            t.textContent=x;
-            tags.appendChild(t);
-        });
-
-        if(c.iconic===true||c.is_iconic===true){
-            const t=document.createElement("span");
-            t.className="card-tag iconic-tag";
-            t.textContent="Iconic";
-            tags.appendChild(t);
-        }
-
-        if(isFavorite(c)){
-            const t=document.createElement("span");
-            t.className="card-tag";
-            t.textContent="⭐ Favorito";
-            tags.appendChild(t);
-        }
-
-        content.append(n,tags);
-        a.appendChild(content);
-
-        if(selected.includes(c)){
-            const mark=document.createElement("div");
-            mark.className="selected-mark";
-            mark.textContent="✓";
-            a.appendChild(mark);
-        }
-
-        a.onclick=()=>toggle(c);
-        grid.appendChild(a);
-    });
-
-    count.textContent=`${list.length} ${list.length===1?"carta":"cartas"}`;
-    page.textContent=`Página ${currentPage} / ${pages}`;
-    prev.disabled=currentPage<=1;
-    next.disabled=currentPage>=pages;
-
-    const shown=Math.min(perPage,Math.max(0,list.length-(currentPage-1)*perPage));
-    status.textContent=list.length?`Mostrando ${shown} de ${list.length} cartas.`:"No se encontraron cartas.";
-}
-
-
-/* =========================
-   EQUIPO
-========================= */
-
-function toggle(c){
-    const i=selected.indexOf(c);
-
-    if(i>=0){
-        selected.splice(i,1);
-    }else{
-        if(selected.length>=5){
-            alert("El equipo solo puede tener 5 cartas.");
-            return;
-        }
-        selected.push(c);
-    }
-
-    render();
-    renderTeam();
+renderCards();renderTeam();updateCommands();
 }
 
 function renderTeam(){
-    teamCount.textContent=`${selected.length} / 5`;
-
-    if(!selected.length){
-        team.innerHTML='<div class="empty-team">Selecciona cartas para construir tu equipo.</div>';
-        updateCommands();
-        return;
-    }
-
-    team.innerHTML="";
-
-    selected.forEach((c,i)=>{
-        const d=document.createElement("div");
-        d.className="team-card";
-
-        const im=img(c,"team-card-image");
-
-        const b=document.createElement("button");
-        b.className="remove-team";
-        b.type="button";
-        b.textContent="×";
-
-        b.onclick=e=>{
-            e.stopPropagation();
-            selected.splice(i,1);
-            render();
-            renderTeam();
-        };
-
-        im.appendChild(b);
-        d.appendChild(im);
-
-        const n=document.createElement("div");
-        n.className="team-card-name";
-        n.textContent=c.name||"Sin nombre";
-
-        d.appendChild(n);
-        team.appendChild(d);
-    });
-
-    updateCommands();
+selectedTeam.innerHTML="";teamCount.textContent=state.selected.length+" / 5";
+if(!state.selected.length){
+selectedTeam.innerHTML='<div class="empty-team">Selecciona cartas para construir tu equipo.</div>';return;
 }
-
-
-/* =========================
-   COMANDOS
-========================= */
+state.selected.forEach(c=>{
+let a=document.createElement("article");a.className="team-card";
+let im=document.createElement("div");im.className="team-card-image";
+if(c.image){let x=document.createElement("img");x.src=c.image;x.alt=c.name||"Carta";im.append(x)}
+else im.innerHTML='<div class="image-placeholder">Sin imagen</div>';
+let n=document.createElement("div");n.className="team-card-name";n.textContent=c.name||"Sin nombre";
+let b=document.createElement("button");b.className="remove-team";b.textContent="×";b.type="button";
+b.onclick=e=>{e.stopPropagation();toggleCard(c)};
+a.append(im,n,b);selectedTeam.append(a);
+});
+}
 
 function updateCommands(){
-    if(!commandGrades||!commandRarity||!commandRaids) return;
-
-    const names=selected.map(c=>c.name).filter(Boolean).join(", ");
-    const e=selected[0]?.element||"Fire";
-
-    commandGrades.textContent="@luvi#1792 inv -n "+names+" -g b,a,s";
-    commandRarity.textContent="@luvi#1792 inv -n "+names+" -r e,l";
-    commandRaids.textContent="@luvi#1792 raids -n "+names+" -e "+e;
+let n=state.selected.map(c=>c.name).filter(Boolean).join(", "),e=state.selected[0]?.element||"Fire";
+commandGrades.textContent="@luvi#1792 inv -n "+n+" -g b,a,s";
+commandRarity.textContent="@luvi#1792 inv -n "+n+" -r e,l";
+commandRaids.textContent="@luvi#1792 raids -n "+n+" -e "+e;
 }
 
-
-/* =========================
-   PAGINACIÓN
-========================= */
-
-prev.onclick=()=>{
-    if(currentPage>1){
-        currentPage--;
-        render();
-        window.scrollTo({top:0,behavior:"smooth"});
-    }
+previousPage.onclick=()=>{
+if(state.currentPage>1){state.currentPage--;renderCards();scrollTo({top:0,behavior:"smooth"})}
 };
 
-next.onclick=()=>{
-    const p=Math.max(1,Math.ceil(filtered().length/perPage));
-
-    if(currentPage<p){
-        currentPage++;
-        render();
-        window.scrollTo({top:0,behavior:"smooth"});
-    }
+nextPage.onclick=()=>{
+let p=Math.max(1,Math.ceil(getFilteredCards().length/state.cardsPerPage));
+if(state.currentPage<p){state.currentPage++;renderCards();scrollTo({top:0,behavior:"smooth"})}
 };
 
+function resetPage(){state.currentPage=1;renderCards()}
+searchInput.oninput=resetPage;
+elementFilter.onchange=resetPage;
+roleFilter.onchange=resetPage;
+iconicFilter.onchange=resetPage;
 
-/* =========================
-   EVENTOS
-========================= */
-
-[search,element,role,series,iconic].forEach(x=>{
-    x.addEventListener("input",()=>{
-        currentPage=1;
-        render();
-    });
-
-    x.addEventListener("change",()=>{
-        currentPage=1;
-        render();
-    });
+document.querySelectorAll(".copy-button").forEach(b=>b.onclick=async()=>{
+let x=$(b.dataset.command).textContent.trim();
+try{
+await navigator.clipboard.writeText(x);
+let o=b.textContent;b.textContent="¡Copiado!";
+setTimeout(()=>b.textContent=o,1200);
+}catch(e){alert("No se pudo copiar. Copia el comando manualmente.")}
 });
 
+function getCardKey(c){
+return String(c.name||"")+"|"+String(c.element||"")+"|"+String(c.role||"");
+}
 
-/* =========================
-   COPIAR COMANDOS
-========================= */
+/* EXPORTAR */
 
-document.querySelectorAll(".copy-button").forEach(b=>{
-    b.onclick=async()=>{
-        const x=$(b.dataset.command).textContent.trim();
+function exportTeam(){
+if(!state.selected.length)return alert("Selecciona al menos una carta.");
 
-        try{
-            await navigator.clipboard.writeText(x);
-
-            const old=b.textContent;
-            b.textContent="¡Copiado!";
-            setTimeout(()=>b.textContent=old,1200);
-        }catch(e){
-            alert("No se pudo copiar. Copia el comando manualmente.");
-        }
-    };
+let o=document.createElement("div");
+o.id="dex-export-preview";
+Object.assign(o.style,{
+position:"fixed",inset:"0",zIndex:"999999",
+background:"#050505",overflow:"auto",padding:"18px"
 });
 
+let cards=state.selected.map(c=>`
 
-/* =========================
-   IMPRIMIR
-========================= */
+  <div style="  
+   background:#0b0b0d;  
+   border:1px solid #35171c;  
+   border-radius:14px;  
+   overflow:hidden;  
+   box-shadow:0 8px 25px #000;  
+  ">  
+   <img src="${c.image||""}" style="  
+    display:block;width:100%;  
+    aspect-ratio:3/4;  
+    object-fit:cover;  
+   ">  
+   <div style="  
+    padding:11px 6px;  
+    text-align:center;  
+    color:#fff;  
+    font:600 14px Arial;  
+   ">${c.name||"Sin nombre"}</div>  
+  </div>  
+ `).join("");  o.innerHTML=`
 
-function escapeHTML(value){
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+ <div id="dex-export-card" style="  
+  max-width:1250px;  
+  margin:auto;  
+  padding:28px;  
+  background:  
+   radial-gradient(circle at top,#241014 0,#0b0809 35%,#050505 75%);  
+  border:1px solid #35171c;  
+  border-radius:18px;  
+  box-shadow:0 15px 50px #000;  
+  color:white;  
+  font-family:Arial,sans-serif;  
+ ">    <div style="  
+   display:flex;  
+   align-items:center;  
+   justify-content:space-between;  
+   margin-bottom:24px;  
+  ">  
+   <div style="display:flex;align-items:center;gap:12px">  
+    <img src="../assets/dex-logo.png"  
+     style="width:55px;height:55px;object-fit:contain">  
+    <div>  
+     <div style="font-size:12px;color:#a66a72;letter-spacing:3px">  
+      DEX  
+     </div>  
+     <div style="font-size:25px;font-weight:700">  
+      Team Builder  
+     </div>  
+    </div>  
+   </div>     <div style="  
+    padding:8px 13px;  
+    border:1px solid #4b2026;  
+    border-radius:9px;  
+    color:#c98991;  
+    font-size:12px;  
+   ">  
+    ${state.selected.length}/5  
+   </div>  
+  </div>    <div style="  
+   height:1px;  
+   background:#35171c;  
+   margin-bottom:24px;  
+  "></div>    <div style="  
+   display:grid;  
+   grid-template-columns:repeat(5,1fr);  
+   gap:14px;  
+  ">  
+   ${cards}  
+  </div>    <div style="  
+   margin-top:25px;  
+   padding-top:15px;  
+   border-top:1px solid #35171c;  
+   display:flex;  
+   justify-content:space-between;  
+   color:#777;  
+   font-size:11px;  
+  ">  
+   <span>DEX • TEAM BUILDER</span>  
+   <span>Luvi Database</span>  
+  </div>   </div>   <div style="  
+  max-width:1250px;  
+  margin:15px auto 0;  
+  display:flex;  
+  gap:10px;  
+ ">  
+  <button id="saveExport" style="  
+   flex:1;padding:13px;  
+   background:#35171c;  
+   border:1px solid #693039;  
+   border-radius:10px;  
+   color:white;font:600 14px Arial;  
+  ">  
+   💾 Guardar  
+  </button>  <button id="closeExport" style="  
+flex:1;padding:13px;  
+background:#111;  
+border:1px solid #333;  
+border-radius:10px;  
+color:white;font:600 14px Arial;  
+">
+Cerrar
+</button>
+
+ </div>   <p style="  
+  text-align:center;  
+  color:#777;  
+  font:12px Arial;  
+ ">  
+  Mantén pulsada la imagen para guardarla si Android no muestra la opción Guardar.  
+ </p>  
+ `;  document.body.append(o);
+
+$("closeExport").onclick=()=>o.remove();
+
+$("saveExport").onclick=async()=>{
+let img=o.querySelector("#dex-export-card");
+
+try{
+if(navigator.share){
+let text="Mi equipo en Dex";
+await navigator.share({title:"Dex Team",text:text});
+return;
+}
+}catch(e){}
+
+alert("Mantén pulsada la imagen para guardarla.");
+};
+
 }
 
-function printTeam(){
-    if(!selected.length){
-        alert("Selecciona al menos una carta antes de imprimir.");
-        return;
-    }
+$("downloadTeam").onclick=exportTeam;
+$("printTeam").onclick=exportTeam;
 
-    const cardsHTML=selected.map(c=>`
-        <div class="print-card">
-            <img src="${escapeHTML(c.image||"")}" alt="${escapeHTML(c.name||"Carta")}">
-            <div>${escapeHTML(c.name||"Sin nombre")}</div>
-        </div>
-    `).join("");
-
-    const printWindow=window.open("","_blank","width=900,height=700");
-
-    if(!printWindow){
-        alert("El navegador bloqueó la ventana de impresión. Permite ventanas emergentes para este sitio.");
-        return;
-    }
-
-    printWindow.document.write(`
-        <!DOCTYPE html>
-        <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <title>Dex - Mi Equipo</title>
-            <style>
-                *{box-sizing:border-box}
-                body{margin:0;padding:30px;background:#fff;color:#111;font-family:Arial,Helvetica,sans-serif}
-                h1{margin:0 0 8px;font-size:24px}
-                p{margin:0 0 22px;color:#555}
-                .print-team{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-                .print-card{overflow:hidden;border:1px solid #ccc;border-radius:10px;background:#fff;text-align:center}
-                .print-card img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
-                .print-card div{padding:9px 6px;font-size:12px;font-weight:bold}
-                @media print{body{padding:0}}
-                @media(max-width:700px){.print-team{grid-template-columns:repeat(2,1fr)}}
-            </style>
-        </head>
-        <body>
-            <h1>Mi equipo - Dex</h1>
-            <p>${selected.length} / 5 cartas</p>
-            <div class="print-team">${cardsHTML}</div>
-            <script>
-                window.addEventListener("load",()=>{
-                    setTimeout(()=>window.print(),500);
-                });
-            <\/script>
-        </body>
-        </html>
-    `);
-
-    printWindow.document.close();
-}
-
-
-/* =========================
-   DESCARGAR
-========================= */
-
-async function downloadTeam(){
-    if(!selected.length){
-        alert("Selecciona al menos una carta antes de descargar.");
-        return;
-    }
-
-    if(typeof html2canvas==="undefined"){
-        alert("No se pudo cargar el sistema de descarga.");
-        return;
-    }
-
-    const exportBox=document.createElement("div");
-
-    exportBox.style.position="fixed";
-    exportBox.style.left="-100000px";
-    exportBox.style.top="0";
-    exportBox.style.width="1000px";
-    exportBox.style.padding="30px";
-    exportBox.style.background="#080808";
-    exportBox.style.color="#fff";
-    exportBox.style.fontFamily="Arial,Helvetica,sans-serif";
-
-    const title=document.createElement("h1");
-    title.textContent="Mi equipo - Dex";
-    title.style.margin="0 0 20px";
-    title.style.fontSize="28px";
-
-    const exportGrid=document.createElement("div");
-    exportGrid.style.display="grid";
-    exportGrid.style.gridTemplateColumns="repeat(5,1fr)";
-    exportGrid.style.gap="14px";
-
-    selected.forEach(c=>{
-        const card=document.createElement("div");
-
-        card.style.background="#160d0f";
-        card.style.border="1px solid #32171b";
-        card.style.borderRadius="12px";
-        card.style.overflow="hidden";
-
-        const image=document.createElement("img");
-        image.src=c.image||"";
-        image.alt=c.name||"Carta";
-        image.crossOrigin="anonymous";
-        image.style.display="block";
-        image.style.width="100%";
-        image.style.aspectRatio="3/4";
-        image.style.objectFit="cover";
-
-        const name=document.createElement("div");
-        name.textContent=c.name||"Sin nombre";
-        name.style.padding="10px 7px";
-        name.style.textAlign="center";
-        name.style.fontSize="13px";
-        name.style.fontWeight="bold";
-
-        card.append(image,name);
-        exportGrid.appendChild(card);
-    });
-
-    exportBox.append(title,exportGrid);
-    document.body.appendChild(exportBox);
-
-    try{
-        await Promise.all([...exportBox.querySelectorAll("img")].map(image=>{
-            if(image.complete) return Promise.resolve();
-
-            return new Promise(resolve=>{
-                image.onload=resolve;
-                image.onerror=resolve;
-            });
-        }));
-
-        const canvas=await html2canvas(exportBox,{
-            backgroundColor:"#080808",
-            scale:2,
-            useCORS:true,
-            allowTaint:false,
-            logging:false
-        });
-
-        const link=document.createElement("a");
-        link.download="dex-equipo.png";
-        link.href=canvas.toDataURL("image/png");
-        link.click();
-
-    }catch(error){
-        console.error("Error al generar la imagen:",error);
-        alert("No se pudo generar la imagen. Es posible que alguna imagen externa no permita ser capturada.");
-    }finally{
-        exportBox.remove();
-    }
-}
-
-
-/* =========================
-   BOTONES
-========================= */
-
-if(printButton) printButton.onclick=printTeam;
-if(downloadButton) downloadButton.onclick=downloadTeam;
-
-
-/* =========================
-   FAVORITOS EN TIEMPO REAL
-========================= */
-
-window.addEventListener("storage",event=>{
-    if(event.key!==FAVORITES_KEY) return;
-
-    try{
-        favorites=new Set(JSON.parse(event.newValue||"[]"));
-    }catch(e){
-        favorites=new Set();
-    }
-
-    render();
-});
-
-
-/* =========================
-   INICIAR
-========================= */
-
-if(!cardsData.length){
-    status.textContent="No se encontró el catálogo de cartas.";
-}else{
-    filters();
-    render();
-    renderTeam();
-}
-
+loadFilters();
+renderCards();
+renderTeam();
+updateCommands();
