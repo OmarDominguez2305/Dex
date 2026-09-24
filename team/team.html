@@ -34,7 +34,7 @@
 <h1>Team Builder</h1>
 
 <p>
-Busca cartas, filtra por elemento y rol,
+Busca cartas, filtra por elemento, rol y serie,
 y construye tu equipo.
 </p>
 
@@ -155,13 +155,14 @@ Copiar
 <p>
 Selecciona hasta 5 cartas para construir tu equipo.
 Puedes combinar búsqueda y filtros de elemento,
-rol e Iconic.
+rol, serie e Iconic.
 </p>
 
 <div class="ability-tags">
 
 <span>Element</span>
 <span>Role</span>
+<span>Series</span>
 <span>Iconic</span>
 <span>Search</span>
 
@@ -208,6 +209,18 @@ Rol
 <select id="roleFilter">
 
 <option value="all">Todos</option>
+
+</select>
+
+</label>
+
+
+<label>
+Serie
+
+<select id="seriesFilter">
+
+<option value="all">Todas</option>
 
 </select>
 
@@ -271,7 +284,7 @@ Siguiente →
 
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>  
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="cards.js"></script>
 <script src="team.js"></script>
 <script src="../dex-menu.js"></script>
