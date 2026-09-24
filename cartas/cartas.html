@@ -2,299 +2,130 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#080808"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080808">
     <title>Dex - Cartas</title>
 
-    <link
-        rel="stylesheet"
-        href="cartas.css"
-    >
-
-    <link
-        rel="stylesheet"
-        href="../dex-menu.css"
-    >
-
-
+    <link rel="stylesheet" href="cartas.css">
+    <link rel="stylesheet" href="../dex-menu.css">
 </head>
-
 
 <body>
 
-
 <header class="top-bar topbar">
+    <button id="backButton" class="back-button" type="button" aria-label="Volver a Inicio">←</button>
 
-    <button
-        id="backButton"
-        class="back-button"
-        type="button"
-        aria-label="Volver a Inicio"
-    >
-        ←
+    <button id="dexMenuButton" class="logo-button" type="button" aria-label="Abrir menú de Dex">
+        <img src="../assets/dex-logo.png" alt="Dex">
+        <span class="logo-arrow">⌄</span>
     </button>
-
-    <button
-        id="dexMenuButton"
-        class="logo-button"
-        type="button"
-        aria-label="Abrir menú de Dex"
-    >
-
-        <img
-            src="../assets/dex-logo.png"
-            alt="Dex"
-        >
-
-        <span class="logo-arrow">
-            ⌄
-        </span>
-
-    </button>
-
 </header>
 
-
-
 <main class="container">
-
 
     <!-- HERO -->
 
     <section class="hero">
-
-        <div class="hero-icon">
-            🃏
-        </div>
+        <div class="hero-icon">🃏</div>
 
         <div>
-
-            <h1>
-                Cartas
-            </h1>
-
-            <p>
-                Explora el catálogo completo de cartas.
-            </p>
-
+            <h1>Cartas</h1>
+            <p>Explora el catálogo completo de cartas.</p>
         </div>
-
     </section>
-
-
 
     <!-- FILTROS -->
 
     <section class="filter-card">
-
         <div class="section-title">
-
             <span>🔎</span>
-
-            <h2>
-                Buscar y filtrar
-            </h2>
-
+            <h2>Buscar y filtrar</h2>
         </div>
-
 
         <div class="filter-grid">
 
-
             <label>
-
                 Buscar carta
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Nombre de carta..."
-                >
-
+                <input type="text" id="searchInput" placeholder="Nombre de carta...">
             </label>
 
-
-
             <label>
-
                 Elemento
-
                 <select id="elementFilter">
-
-                    <option value="all">
-                        Todos
-                    </option>
-
+                    <option value="all">Todos</option>
                 </select>
-
             </label>
 
-
-
             <label>
-
                 Rol
-
                 <select id="roleFilter">
-
-                    <option value="all">
-                        Todos
-                    </option>
-
+                    <option value="all">Todos</option>
                 </select>
-
             </label>
 
             <label>
-
                 Serie
-
                 <select id="seriesFilter">
-
-                   <option value="all">
-                       Todas
-                 </option>
-
-              </select>
- 
+                    <option value="all">Todas</option>
+                </select>
             </label>
 
             <label>
-
                 Iconic
-
                 <select id="iconicFilter">
-
-                    <option value="all">
-                        Todos
-                    </option>
-
-                    <option value="true">
-                        Sí
-                    </option>
-
-                    <option value="false">
-                        No
-                    </option>
-
+                    <option value="all">Todos</option>
+                    <option value="true">Sí</option>
+                    <option value="false">No</option>
                 </select>
-
             </label>
 
-          <label>
-
-    Favoritos
-
-    <select id="favoriteFilter">
-
-        <option value="all">
-            Todos
-        </option>
-
-        <option value="favorites">
-            ⭐ Favoritos
-        </option>
-
-    </select>
-
-          </label>
+            <label>
+                Favoritos
+                <select id="favoriteFilter">
+                    <option value="all">Todos</option>
+                    <option value="favorites">⭐ Favoritos</option>
+                </select>
+            </label>
 
         </div>
-
     </section>
-
-
 
     <!-- ESTADO -->
 
-    <div
-        id="statusMessage"
-        class="status"
-    >
+    <div id="statusMessage" class="status">
         Cargando cartas...
     </div>
-
-
 
     <!-- CATALOGO -->
 
     <section>
-
         <div class="section-heading">
-
-            <h2>
-                Catálogo
-            </h2>
-
-            <span id="cardCount">
-                0 cartas
-            </span>
-
+            <h2>Catálogo</h2>
+            <span id="cardCount">0 cartas</span>
         </div>
 
-
-        <div
-            id="cardsGrid"
-            class="cards-grid"
-        ></div>
-
+        <div id="cardsGrid" class="cards-grid"></div>
 
         <div class="pagination">
+            <button id="previousPage" class="page-button" type="button">← Anterior</button>
 
+            <span id="pageNumber">Página 1</span>
 
-            <button
-                id="previousPage"
-                class="page-button"
-                type="button"
-            >
-                ← Anterior
-            </button>
-
-
-            <span id="pageNumber">
-                Página 1
-            </span>
-
-
-            <button
-                id="nextPage"
-                class="page-button"
-                type="button"
-            >
-                Siguiente →
-            </button>
-
-
+            <button id="nextPage" class="page-button" type="button">Siguiente →</button>
         </div>
-
     </section>
 
-
 </main>
-
-
 
 <!-- DATOS Y FUNCIONALIDAD -->
 
 <script src="../team/cards.js"></script>
-  <script src="cartas.js"></script>
+<script src="cartas.js"></script>
 
 <!-- MENÚ Y TRANSICIÓN -->
 
 <script src="../dex-menu.js"></script>
 
-
 </body>
-
 </html>
